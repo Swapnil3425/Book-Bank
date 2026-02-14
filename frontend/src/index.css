@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===== Glassmorphism & Theme ===== */
+
+body {
+  @apply bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-100;
+  background-attachment: fixed;
+  font-family: 'Inter', sans-serif;
+}
+
+.card-glass {
+  @apply rounded-2xl bg-slateglass shadow-glass backdrop-blur-lg border border-cyanblur;
+}
+
+.btn-primary {
+  @apply rounded-xl bg-primary-500 text-slate-950 font-semibold px-4 py-2 text-sm hover:bg-primary-400 transition;
+}
+
+.btn-outline {
+  @apply rounded-xl border border-primary-400 text-primary-200 font-medium px-4 py-2 text-sm hover:bg-primary-500/10 transition;
+}
+
+.input-glass {
+  @apply rounded-xl bg-slate-800/50 border border-slate-700/70 px-3 py-2 text-sm text-slate-100 placeholder-slate-400 outline-none focus:border-primary-400 focus:ring-0;
+}
+
+.table-glass th {
+  @apply bg-slate-900/50 text-cyan-300 uppercase text-xs font-semibold border-b border-slate-800;
+}
+
+.table-glass td {
+  @apply border-b border-slate-800 text-sm;
+}
+
+.scroll-glass::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scroll-glass::-webkit-scrollbar-thumb {
+  background: rgba(0, 200, 255, 0.3);
+  border-radius: 6px;
+}
