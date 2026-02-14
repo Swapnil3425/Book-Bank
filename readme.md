@@ -143,5 +143,20 @@ book-bank-mernV34/
 4.  Push to the branch (`git push origin feature/AmazingFeature`).
 5.  Open a Pull Request.
 
+## 🚀 Deployment
+
+### Frontend (Vercel)
+1.  Install Vercel CLI or connect GitHub repo to Vercel dashboard.
+2.  Set Root Directory to `frontend`.
+3.  Add Environment Variable: `VITE_API_URL` (your backend URL).
+4.  Deploy!
+
+### Backend (Render)
+1.  Connect GitHub repo to Render.
+2.  Set Root Directory to `backend`.
+3.  Build Command: `npm install`
+4.  Start Command: `npm start`
+5.  Add Environment Variables: `MONGO_URI`, `JWT_SECRET`, `CLIENT_URL` (frontend URL).
+
 ---
 Developed for IIITP Software Engineering Lab.
