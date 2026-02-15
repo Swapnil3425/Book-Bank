@@ -273,7 +273,7 @@ const VerificationModal = ({
             <div className="border-t border-slate-700 pt-4">
               <p className="text-xs text-slate-400 uppercase mb-3">ID Photo</p>
               <img
-                src={`http://localhost:5000/${user.idPhotoPath}`}
+                src={`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/${user.idPhotoPath}`}
                 alt="Student ID"
                 className="max-h-72 rounded-lg mx-auto border border-slate-700"
               />
