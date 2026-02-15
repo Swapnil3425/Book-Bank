@@ -15,8 +15,8 @@ const generateToken = (res, userId) => {
 
   res.cookie("token", token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production", // Must be true for sameSite: 'none'
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", // 'none' for cross-site (Render -> Vercel)
     maxAge: 24 * 60 * 60 * 1000
   });
 };
