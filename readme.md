@@ -157,6 +157,3 @@ book-bank-mernV34/
 3.  Build Command: `npm install`
 4.  Start Command: `npm start`
 5.  Add Environment Variables: `MONGO_URI`, `JWT_SECRET`, `CLIENT_URL` (frontend URL).
-
----
-Developed for IIITP Software Engineering Lab.
