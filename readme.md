@@ -38,6 +38,48 @@ Built with the **MERN Stack** (MongoDB, Express.js, React, Node.js), it features
 -   **Email Service:** Nodemailer (Gmail/SMTP).
 -   **Scheduling:** node-cron.
 
+## 📸 Screenshots
+
+### 🔑 Authentication & Landing
+<p align="center">
+  <img src="./images/landing.png" width="800" alt="Landing Page" />
+</p>
+<p align="center">
+  <img src="./images/login.png" width="400" alt="Login Page" />
+  <img src="./images/register.png" width="400" alt="Register Page" />
+</p>
+
+### 👨‍🎓 Student Portal
+<p align="center">
+  <img src="./images/student_dashboard.png" width="400" alt="Student Dashboard" />
+  <img src="./images/student_books.png" width="400" alt="Book Catalog" />
+</p>
+<p align="center">
+  <img src="./images/student_borrowed.png" width="400" alt="Borrowed Books" />
+  <img src="./images/student_report.png" width="400" alt="Student Reports" />
+</p>
+
+### 🛠️ Admin Control Center
+<p align="center">
+  <img src="./images/admin_dashboard.png" width="400" alt="Admin Dashboard" />
+  <img src="./images/admin_booka.png" width="400" alt="Manage Inventory" />
+</p>
+<p align="center">
+  <img src="./images/admin_mng_users.png" width="400" alt="User Management" />
+  <img src="./images/admin_reports.png" width="400" alt="System Reports" />
+</p>
+<p align="center">
+  <img src="./images/admin_pending_rqst.png" width="400" alt="Pending Requests" />
+  <img src="./images/admin_id_verification.png" width="400" alt="ID Verification" />
+</p>
+
+### 💬 Intelligent Support
+<p align="center">
+  <img src="./images/chat-assistant.png" width="800" alt="AI Chat Assistant" />
+</p>
+
+
+
 ## 🚀 Getting Started
 
 ### Prerequisites

@@ -279,6 +279,18 @@ router.patch(
     borrow.issueDate = new Date();
     await borrow.save();
 
+    // Send email to student
+    await sendEmail(
+      borrow.student.email,
+      "IIITP BookBank - Book Issued Successfully",
+      `<p>Dear ${borrow.student.name},</p>
+       <p>Your request to borrow <strong>${borrow.book.title}</strong> has been approved and issued.</p>
+       <p><strong>Issue Date:</strong> ${borrow.issueDate.toLocaleDateString("en-GB")}</p>
+       <p><strong>Due Date:</strong> ${new Date(borrow.dueDate).toLocaleDateString("en-GB")}</p>
+       <p>Please ensure you return the book by the due date to avoid any penalties.</p>
+       <p>Happy reading!</p>`
+    );
+
     res.json({ message: "Borrow confirmed successfully", borrow });
   })
 );
@@ -352,6 +364,16 @@ router.patch(
     await Book.findByIdAndUpdate(borrow.book._id, {
       $inc: { availableCopies: 1 }
     });
+
+    // Send Return Receipt Email
+    await sendEmail(
+      borrow.student.email,
+      "IIITP BookBank - Book Return Receipt",
+      `<p>Dear ${borrow.student.name},</p>
+       <p>We are confirming that you have successfully returned <strong>${borrow.book.title}</strong>.</p>
+       <p><strong>Return Date:</strong> ${borrow.returnDate.toLocaleDateString("en-GB")}</p>
+       <p>Thank you for using the IIITP BookBank!</p>`
+    );
 
     res.json({ message: "Book marked as returned successfully", borrow });
   })
@@ -503,7 +525,9 @@ router.get(
 router.patch(
   "/borrows/:id/fine/collect",
   asyncHandler(async (req, res) => {
-    const borrow = await Borrow.findById(req.params.id);
+    const borrow = await Borrow.findById(req.params.id)
+      .populate("student")
+      .populate("book");
     if (!borrow) {
       res.status(404);
       throw new Error("Borrow not found");
@@ -516,6 +540,19 @@ router.patch(
     borrow.finePaidAt = new Date();
     borrow.fineCollectedBy = req.user._id;
     await borrow.save();
+
+    // Send Fine Receipt Email
+    if (borrow.student && borrow.student.email) {
+      await sendEmail(
+        borrow.student.email,
+        "IIITP BookBank - Fine Payment Receipt",
+        `<p>Dear ${borrow.student.name},</p>
+         <p>This is a confirmation that your fine payment of <strong>₹${borrow.fineAmount}</strong> for the book <strong>${borrow.book.title}</strong> has been received successfully.</p>
+         <p><strong>Payment Date:</strong> ${borrow.finePaidAt.toLocaleDateString("en-GB")}</p>
+         <p>Thank you for clearing your dues.</p>`
+      );
+    }
+
     res.json({ message: "Fine marked as collected", borrow });
   })
 );

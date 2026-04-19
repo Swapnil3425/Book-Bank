@@ -159,7 +159,9 @@ router.post(
       "Book Bank - Password Reset",
       `<p>Hello ${user.name},</p>
        <p>You requested a password reset for your Book Bank account.</p>
-       <p>Click <a href="${resetLink}">here</a> to reset your password. This link is valid for 15 minutes.</p>`
+       <p>Your One-Time Password (OTP) is: <strong style="font-size: 24px;">${token}</strong></p>
+       <p>You can also click <a href="${resetLink}">here</a> to reset your password automatically.</p>
+       <p>This OTP is valid for 3 minutes.</p>`
     );
 
     res.json({ message: "Password reset link sent to your email" });
