@@ -28,15 +28,46 @@ const Sidebar = () => {
   // GUEST SIDEBAR: only chat
   if (!user) {
     return (
-      <aside className="hidden w-56 flex-shrink-0 px-3 py-4 md:block bg-transparent">
-        <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3 px-3">Quick Help</div>
-        <Link
-          to="/chat"
-          className={navItemClass(pathname === "/chat")}
-        >
-          <span>💬 Chat Assistant</span>
-          {renderChatBadge()}
-        </Link>
+      <aside className="hidden w-64 flex-shrink-0 px-2 py-6 md:block bg-transparent border-r border-slate-800/50">
+        <div className="space-y-6">
+          <div className="bg-slate-800/30 rounded-xl p-3 border border-slate-700/30">
+            <div className="text-[11px] font-bold text-slate-500 uppercase tracking-[0.2em] mb-4 px-1">Quick Help</div>
+            <Link
+              to="/chat"
+              className={navItemClass(pathname === "/chat") + " py-2.5 px-3 bg-slate-800/80 shadow-sm border border-slate-700/50"}
+            >
+              <span className="text-sm font-semibold">💬 Chat Assistant</span>
+              {renderChatBadge()}
+            </Link>
+            <p className="mt-3 px-1 text-xs leading-relaxed text-slate-400">
+              Need help with fines or library rules? Get instant AI answers.
+            </p>
+          </div>
+
+          <div className="bg-slate-800/30 rounded-xl p-3 border border-slate-700/30 space-y-5">
+            <div className="text-[11px] font-bold text-slate-500 uppercase tracking-[0.2em] px-1">Resources</div>
+            <div className="space-y-5 px-1">
+              <div>
+                <p className="text-sm font-bold text-slate-200 mb-1.5 flex items-center gap-2">
+                  <span className="h-1.5 w-1.5 rounded-full bg-primary-500"></span>
+                  New to BookBank?
+                </p>
+                <p className="text-xs leading-relaxed text-slate-400">
+                  Check our <a href="https://github.com/Swapnil3425/Book-Bank" target="_blank" rel="noopener noreferrer" className="text-primary-400 font-bold hover:underline decoration-primary-500/30 underline-offset-4">GitHub Guide</a> for setup and features.
+                </p>
+              </div>
+              <div>
+                <p className="text-sm font-bold text-slate-200 mb-1.5 flex items-center gap-2">
+                  <span className="h-1.5 w-1.5 rounded-full bg-primary-500"></span>
+                  Start Borrowing
+                </p>
+                <p className="text-xs leading-relaxed text-slate-400">
+                  <Link to="/register" className="text-primary-400 font-bold hover:underline decoration-primary-500/30 underline-offset-4">Create Account</Link> with ID and wait for verification.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </aside>
     );
   }
