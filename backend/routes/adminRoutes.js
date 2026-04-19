@@ -112,7 +112,7 @@ router.post(
     const list = overdueBorrows
       .map(
         (b) =>
-          `• ${b.book.title} (due: ${b.dueDate.toDateString()})`
+          `• ${b.book.title} (due: ${b.dueDate.toLocaleDateString("en-GB")})`
       )
       .join("<br/>");
 
@@ -122,7 +122,7 @@ router.post(
       <p>Please return them as soon as possible.</p>`;
 
     if (user.email) {
-      await sendEmail(user.email, "BookBankV3 - Overdue Reminder", html);
+      await sendEmail(user.email, "IIITP BookBank - Overdue Reminder", html);
     }
 
     res.json({ message: "Overdue reminder sent." });
@@ -196,18 +196,18 @@ router.get(
     doc.pipe(res);
 
     if (borrows.length > 0) {
-      doc.fontSize(18).text("BookBankV3 Borrowing Report", { align: "center" });
+      doc.fontSize(18).text("IIITP BookBank Borrowing Report", { align: "center" });
       doc.moveDown();
       borrows.forEach((b) => {
         doc.fontSize(12).text(
-          `${b.student?.name} (${b.student?.institutionalId}) | ${b.book?.title} | Issue: ${b.issueDate?.toLocaleDateString()} | Due: ${b.dueDate?.toLocaleDateString()} | Status: ${b.status}`
+          `${b.student?.name} (${b.student?.institutionalId}) | ${b.book?.title} | Issue: ${b.issueDate?.toLocaleDateString("en-GB")} | Due: ${b.dueDate?.toLocaleDateString("en-GB")} | Status: ${b.status}`
         );
         doc.moveDown(0.5);
       });
     } else {
       // Default: inventory
       const books = await Book.find().sort({ title: 1 });
-      doc.fontSize(18).text("BookBankV3 Inventory Report", { align: "center" });
+      doc.fontSize(18).text("IIITP BookBank Inventory Report", { align: "center" });
       doc.moveDown();
       books.forEach((b) => {
         doc
@@ -244,10 +244,10 @@ router.post(
 
     await sendEmail(
       borrow.student.email,
-      "BookBankV3 - Overdue Book Reminder",
+      "IIITP BookBank - Overdue Book Reminder",
       `<p>Dear ${borrow.student.name},</p>
        <p>This is a reminder that your borrowed book <strong>${borrow.book.title}</strong> is <strong>OVERDUE</strong>.</p>
-       <p><strong>Due Date:</strong> ${new Date(borrow.dueDate).toLocaleDateString()}</p>
+       <p><strong>Due Date:</strong> ${new Date(borrow.dueDate).toLocaleDateString("en-GB")}</p>
        <p>Please return it as soon as possible to avoid further penalties.</p>
        <p>Regards,<br/>Book Bank Administration</p>`
     );
@@ -309,12 +309,12 @@ router.patch(
 
     // Send email to user
     const subject = verificationStatus === "approved"
-      ? "BookBankV3 - ID Verification Approved"
-      : "BookBankV3 - ID Verification Rejected";
+      ? "IIITP BookBank - ID Verification Approved"
+      : "IIITP BookBank - ID Verification Rejected";
 
     const body = verificationStatus === "approved"
       ? `<p>Dear ${user.name},</p>
-         <p>Your ID verification has been approved! You now have full access to the BookBankV3 library.</p>
+         <p>Your ID verification has been approved! You now have full access to the IIITP BookBank library.</p>
          <p>Happy reading!</p>`
       : `<p>Dear ${user.name},</p>
          <p>Unfortunately, your ID verification has been rejected.</p>
@@ -395,7 +395,7 @@ router.patch(
     // Send email to student
     await sendEmail(
       borrow.student.email,
-      "BookBankV3 - Borrow Request Cancelled",
+      "IIITP BookBank - Borrow Request Cancelled",
       `<p>Dear ${borrow.student.name},</p>
        <p>Your borrow request for <strong>${borrow.book.title}</strong> has been cancelled.</p>
        <p><strong>Reason:</strong> ${cancellationReason}</p>
@@ -444,7 +444,7 @@ router.patch(
     // Send email to student
     await sendEmail(
       borrow.student.email,
-      "BookBankV3 - Borrow Request Rejected",
+      "IIITP BookBank - Borrow Request Rejected",
       `<p>Dear ${borrow.student.name},</p>
        <p>Your borrow request for <strong>${borrow.book.title}</strong> has been rejected.</p>
        <p><strong>Reason:</strong> ${rejectionReason}</p>

@@ -59,7 +59,7 @@ const ResetPasswordPage = () => {
           <label className="flex flex-col gap-1 text-sm text-slate-200">
             <span>New Password</span>
             <input
-              className="rounded-xl border border-slate-700 bg-slate-900/60 px-3 py-2 text-sm outline-none focus:border-primary-400 focus:ring-1 focus:ring-primary-500"
+              className="rounded-xl border border-slate-600 bg-slate-800/60 px-3 py-2 text-sm outline-none focus:border-primary-400 focus:ring-1 focus:ring-primary-400"
               type="password"
               name="password"
               value={form.password}
@@ -71,7 +71,7 @@ const ResetPasswordPage = () => {
           <label className="flex flex-col gap-1 text-sm text-slate-200">
             <span>Confirm Password</span>
             <input
-              className="rounded-xl border border-slate-700 bg-slate-900/60 px-3 py-2 text-sm outline-none focus:border-primary-400 focus:ring-1 focus:ring-primary-500"
+              className="rounded-xl border border-slate-600 bg-slate-800/60 px-3 py-2 text-sm outline-none focus:border-primary-400 focus:ring-1 focus:ring-primary-400"
               type="password"
               name="confirm"
               value={form.confirm}
@@ -83,7 +83,7 @@ const ResetPasswordPage = () => {
           <button
             type="submit"
             disabled={loading}
-            className="mt-2 flex w-full items-center justify-center rounded-xl bg-primary-500 px-4 py-2 text-sm font-medium text-slate-950 hover:bg-primary-400 disabled:cursor-not-allowed disabled:opacity-70"
+            className="mt-2 flex w-full items-center justify-center rounded-xl bg-primary-500 px-4 py-2 text-sm font-medium text-white hover:bg-primary-400 disabled:cursor-not-allowed disabled:opacity-70"
           >
             {loading ? "Resetting..." : "Reset password"}
           </button>

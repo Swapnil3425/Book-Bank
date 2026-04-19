@@ -4,6 +4,7 @@ import { useSearchParams } from "react-router-dom";
 import api from "../api/axios";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { showToast } from "../utils/toastService";
+import { formatDate } from "../utils/formatDate";
 
 
 const ReportsPage = () => {
@@ -91,13 +92,27 @@ const ReportsPage = () => {
     }
   };
 
+  const markAsReturned = async (borrowId) => {
+    try {
+      setLoading(true);
+      await api.patch(`/admin/borrows/${borrowId}/return`);
+      showToast("Book marked as returned!", "success");
+      fetchBorrows();
+    } catch (err) {
+      console.error(err);
+      showToast("Failed to mark returned.", "error");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   if (loading) return <LoadingSpinner />;
 
   return (
     <section className="space-y-6">
       <div className="flex items-center justify-between gap-2">
         <div>
-          <h2 className="text-xl font-semibold text-cyan-300">
+          <h2 className="text-xl font-semibold text-primary-700">
             {filterType === "overdue" ? "Overdue Books" : "Reports & History"}
           </h2>
           <p className="text-sm text-slate-400">
@@ -160,15 +175,15 @@ const ReportsPage = () => {
         <div className="mb-3 flex items-center justify-between">
           <p className="text-sm text-slate-400">
             Total records:{" "}
-            <span className="font-semibold text-slate-100">
+            <span className="font-semibold text-slate-50">
               {borrows.length}
             </span>
           </p>
         </div>
 
-        <div className="max-h-[440px] overflow-auto rounded-xl border border-slate-800/70">
+        <div className="max-h-[440px] overflow-auto rounded-xl border border-slate-700/70">
           <table className="min-w-full text-xs">
-            <thead className="bg-slate-900/90 text-cyan-300 uppercase border-b border-slate-700 sticky top-0 z-10">
+            <thead className="bg-slate-800/60 text-primary-700 uppercase border-b border-slate-600 sticky top-0 z-10">
               <tr>
                 <th className="px-3 py-2 text-left">Student</th>
                 <th className="px-3 py-2 text-left">Book</th>
@@ -182,10 +197,10 @@ const ReportsPage = () => {
               {borrows.map((b) => (
                 <tr
                   key={b._id}
-                  className="odd:bg-slate-900/60 even:bg-slate-900/40 hover:bg-slate-800/60 transition"
+                  className="odd:bg-slate-800/60 even:bg-slate-800/60 hover:bg-slate-800 transition"
                 >
                   <td className="px-3 py-2">
-                    <div className="font-medium text-slate-100">
+                    <div className="font-medium text-slate-50">
                       {b.student?.name}
                     </div>
                     <div className="text-[11px] text-slate-400">
@@ -193,7 +208,7 @@ const ReportsPage = () => {
                     </div>
                   </td>
                   <td className="px-3 py-2">
-                    <div className="font-medium text-slate-100">
+                    <div className="font-medium text-slate-50">
                       {b.book?.title}
                     </div>
                     <div className="text-[11px] text-slate-400">
@@ -201,38 +216,63 @@ const ReportsPage = () => {
                     </div>
                   </td>
                   <td className="px-3 py-2 text-slate-300">
-                    {new Date(b.issueDate).toLocaleDateString()}
+                    {formatDate(b.issueDate)}
                   </td>
                   <td className="px-3 py-2 text-slate-300">
-                    {new Date(b.dueDate).toLocaleDateString()}
+                    {formatDate(b.dueDate)}
                   </td>
                   <td className="px-3 py-2 text-slate-300">
                     {b.returnDate
-                      ? new Date(b.returnDate).toLocaleDateString()
+                      ? formatDate(b.returnDate)
                       : "-"}
                   </td>
                   <td className="px-3 py-2">
                     <span
                       className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-semibold ${b.status === "overdue"
-                        ? "bg-rose-500/10 text-rose-300 border border-rose-500/40"
+                        ? "bg-red-100 text-red-700 border border-red-200"
                         : b.status === "returned"
-                          ? "bg-slate-700/70 text-slate-200 border border-slate-500/40"
+                          ? "bg-slate-700 text-slate-200 border border-slate-500/40"
                           : b.status === "cancelled"
-                            ? "bg-yellow-500/10 text-yellow-300 border border-yellow-500/40"
+                            ? "bg-yellow-50 text-yellow-700 border border-yellow-200"
                             : b.status === "pending"
-                              ? "bg-blue-500/10 text-blue-300 border border-blue-500/40"
-                              : "bg-emerald-500/10 text-emerald-300 border border-emerald-500/40"
+                              ? "bg-blue-500/10 text-blue-700 border border-blue-200"
+                              : "bg-green-100 text-green-700 border border-green-200"
                         }`}
                     >
                       {b.status.toUpperCase()}
                     </span>
                     {b.status === "overdue" && (
-                      <button
-                        onClick={() => setSelectedBorrow(b)}
-                        className="ml-2 px-2 py-0.5 text-[10px] rounded bg-blue-600 hover:bg-blue-700 text-white font-medium"
-                      >
-                        Send Mail
-                      </button>
+                      <div className="flex flex-col gap-1 mt-2 shrink-0 items-start">
+                        {b.fineAmount > 0 && !b.finePaid && (
+                          <span className="text-[10px] font-semibold text-red-400">
+                            Fine: Rs {b.fineAmount}
+                          </span>
+                        )}
+                        <div className="flex gap-1 mt-1">
+                          <button
+                            onClick={() => setSelectedBorrow(b)}
+                            className="px-2 py-0.5 text-[10px] rounded bg-blue-600 hover:bg-blue-700 text-white font-medium whitespace-nowrap"
+                          >
+                            Send Mail
+                          </button>
+                          <button
+                            onClick={() => markAsReturned(b._id)}
+                            className="px-2 py-0.5 text-[10px] rounded bg-emerald-600 hover:bg-emerald-700 text-white font-medium whitespace-nowrap"
+                          >
+                            Mark Return
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                    {b.status === "borrowed" && (
+                       <div className="flex flex-col gap-1 mt-2 shrink-0 items-start">
+                        <button
+                          onClick={() => markAsReturned(b._id)}
+                          className="px-2 py-0.5 text-[10px] rounded bg-emerald-600 hover:bg-emerald-700 text-white font-medium whitespace-nowrap"
+                        >
+                          Mark Return
+                        </button>
+                      </div>
                     )}
                   </td>
                 </tr>
@@ -255,12 +295,12 @@ const ReportsPage = () => {
       {selectedBorrow && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
           <div className="card-glass w-full max-w-md p-6">
-            <h3 className="mb-4 text-lg font-semibold text-cyan-300">
+            <h3 className="mb-4 text-lg font-semibold text-primary-700">
               Send Overdue Email
             </h3>
             <p className="mb-4 text-sm text-slate-400">
               Send a reminder email for the overdue book to{" "}
-              <span className="font-medium text-slate-100">
+              <span className="font-medium text-slate-50">
                 {selectedBorrow.student?.name}
               </span>
               .

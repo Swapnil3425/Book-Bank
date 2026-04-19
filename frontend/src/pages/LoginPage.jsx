@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import FormInput from "../components/FormInput";
 import { useAuth } from "../hooks/useAuth";
 import Toast from "../components/Toast";
+import logo from "../assets/logo.png";
 
 const LoginPage = () => {
   const { login } = useAuth();
@@ -39,15 +40,21 @@ const LoginPage = () => {
         type={toast.type}
         onClose={() => setToast({ ...toast, message: "" })}
       />
-      <div className="mt-8 flex justify-center">
-        <form onSubmit={handleSubmit} className="card-glass w-full max-w-md space-y-4 p-6">
-          <h2 className="text-lg font-semibold text-slate-50">
-            Login to Book Bank
-          </h2>
-          <p className="text-xs text-slate-400">
-            Use your institutional ID and password provided at the time of
-            registration.
-          </p>
+      <div className="mt-8 flex flex-col items-center justify-center">
+        <Link to="/" className="mb-6 flex flex-col items-center gap-2">
+          <img src={logo} alt="Book Bank Logo" className="h-16 w-16 object-contain" />
+          <span className="text-xl font-bold tracking-tight text-slate-50">Book Bank</span>
+        </Link>
+        <form onSubmit={handleSubmit} className="card-glass w-full max-w-md space-y-5 p-8">
+          <div className="text-center">
+            <h2 className="text-2xl font-bold text-slate-50">
+              Login to Portal
+            </h2>
+            <p className="text-sm text-slate-400 mt-2">
+              Use your institutional ID and password provided at the time of
+              registration.
+            </p>
+          </div>
           <FormInput
             label="Institutional ID"
             name="institutionalId"
@@ -68,18 +75,18 @@ const LoginPage = () => {
           <button
             type="submit"
             disabled={loading}
-            className="mt-2 flex w-full items-center justify-center rounded-xl bg-primary-500 px-4 py-2 text-sm font-medium text-slate-950 hover:bg-primary-400 disabled:cursor-not-allowed disabled:opacity-70"
+            className="mt-6 flex w-full items-center justify-center btn-primary disabled:opacity-70 disabled:cursor-not-allowed"
           >
             {loading ? "Logging in..." : "Login"}
           </button>
-          <div className="flex justify-between items-center text-[11px] text-slate-400">
+          <div className="flex justify-between items-center text-xs font-medium text-slate-400 pt-2 border-t border-slate-700/50">
             <span>
               New here?{" "}
-              <Link to="/register" className="text-primary-300">
+              <Link to="/register" className="text-primary-600 hover:text-primary-700">
                 Register
               </Link>
             </span>
-            <Link to="/forgot" className="text-primary-300">
+            <Link to="/forgot" className="text-primary-600 hover:text-primary-700">
               Forgot password?
             </Link>
           </div>

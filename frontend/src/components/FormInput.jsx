@@ -7,10 +7,10 @@ const FormInput = ({
   placeholder,
   required
 }) => (
-  <label className="flex flex-col gap-1 text-sm text-slate-200">
-    <span className="font-medium">{label}</span>
+  <label className="flex flex-col gap-1.5 text-sm text-slate-300">
+    <span className="font-semibold">{label}</span>
     <input
-      className="rounded-xl border border-slate-700 bg-slate-900/60 px-3 py-2 text-sm outline-none focus:border-primary-400 focus:ring-1 focus:ring-primary-500"
+      className="input-glass"
       type={type}
       name={name}
       value={value}

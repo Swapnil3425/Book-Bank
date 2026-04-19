@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import api from "../api/axios";
 import LoadingSpinner from "../components/LoadingSpinner";
 import Toast from "../components/Toast";
+import { formatDate } from "../utils/formatDate";
 
 const PendingBorrowsPage = () => {
   const [pendingBorrows, setPendingBorrows] = useState([]);
@@ -81,7 +82,7 @@ const PendingBorrowsPage = () => {
             placeholder="Search by student name, ID, or book title..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full rounded-lg border border-slate-700 bg-slate-900/50 px-4 py-2 text-sm text-slate-50 placeholder-slate-500 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500"
+            className="w-full rounded-lg border border-slate-600 bg-slate-800/60 px-4 py-2 text-sm text-slate-50 placeholder-slate-500 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500"
           />
         </div>
 
@@ -97,7 +98,7 @@ const PendingBorrowsPage = () => {
           <div className="card-glass overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
-                <thead className="border-b border-slate-700 bg-slate-900/50">
+                <thead className="border-b border-slate-600 bg-slate-800/60">
                   <tr className="text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">
                     <th className="px-4 py-3">Student</th>
                     <th className="px-4 py-3">Book</th>
@@ -110,7 +111,7 @@ const PendingBorrowsPage = () => {
                   {filteredBorrows.map((borrow) => (
                     <tr
                       key={borrow._id}
-                      className="hover:bg-slate-900/30 transition"
+                      className="hover:bg-slate-800/60 transition"
                     >
                       <td className="px-4 py-3">
                         <div>
@@ -133,10 +134,10 @@ const PendingBorrowsPage = () => {
                         </div>
                       </td>
                       <td className="px-4 py-3 text-slate-300">
-                        {new Date(borrow.dueDate).toLocaleDateString()}
+                        {formatDate(borrow.dueDate)}
                       </td>
                       <td className="px-4 py-3">
-                        <span className="inline-flex items-center rounded-full bg-yellow-500/20 px-2 py-1 text-xs font-semibold text-yellow-300 border border-yellow-400/40">
+                        <span className="inline-flex items-center rounded-full bg-yellow-50 px-2 py-1 text-xs font-semibold text-yellow-700 border border-yellow-400/40">
                           {borrow.status.toUpperCase()}
                         </span>
                       </td>
@@ -170,7 +171,7 @@ const PendingBorrowsPage = () => {
 };
 
 const ConfirmBorrowModal = ({ borrow, onClose, onConfirm, confirming }) => {
-  const dueDate = new Date(borrow.dueDate).toLocaleDateString();
+  const dueDate = formatDate(borrow.dueDate);
   const [rejectionFeedback, setRejectionFeedback] = useState("");
   const [showRejectForm, setShowRejectForm] = useState(false);
   const [rejecting, setRejecting] = useState(false);
@@ -204,7 +205,7 @@ const ConfirmBorrowModal = ({ borrow, onClose, onConfirm, confirming }) => {
         className="card-glass w-full max-w-md p-6 rounded-lg my-8"
         onClick={(e) => e.stopPropagation()}
       >
-        <h3 className="text-lg font-semibold text-cyan-300 mb-4">
+        <h3 className="text-lg font-semibold text-primary-700 mb-4">
           Confirm Book Issue
         </h3>
         <div className="space-y-4 mb-6 text-sm text-slate-300">
@@ -269,7 +270,7 @@ const ConfirmBorrowModal = ({ borrow, onClose, onConfirm, confirming }) => {
               value={rejectionFeedback}
               onChange={(e) => setRejectionFeedback(e.target.value)}
               placeholder="Reason for rejection (will be sent to student)..."
-              className="w-full rounded border border-slate-700 bg-slate-900/50 px-3 py-2 text-sm text-slate-50 placeholder-slate-500 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500"
+              className="w-full rounded border border-slate-600 bg-slate-800/60 px-3 py-2 text-sm text-slate-50 placeholder-slate-500 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500"
               rows="3"
             />
             <div className="flex gap-3 justify-end">

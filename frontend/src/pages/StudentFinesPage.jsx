@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import api from "../api/axios";
 import LoadingSpinner from "../components/LoadingSpinner";
+import { formatDate } from "../utils/formatDate";
 
 const fmt = (val) => {
   try {
@@ -35,7 +36,7 @@ const StudentFinesPage = () => {
   return (
     <section className="space-y-4">
       <div>
-        <h2 className="text-xl font-semibold text-cyan-300">My Fines</h2>
+        <h2 className="text-xl font-semibold text-primary-700">My Fines</h2>
         <p className="text-sm text-slate-400">Overview of fines on your account.</p>
       </div>
 
@@ -55,7 +56,7 @@ const StudentFinesPage = () => {
       </div>
 
       <div className="card-glass p-4">
-        <h3 className="text-sm font-semibold text-slate-100 mb-2">Fines Details</h3>
+        <h3 className="text-sm font-semibold text-slate-50 mb-2">Fines Details</h3>
         <ul className="divide-y divide-slate-800/70 text-sm">
           {fines.map((f) => {
             const due = f.dueDate ? new Date(f.dueDate) : null;
@@ -65,12 +66,12 @@ const StudentFinesPage = () => {
               <li key={f._id} className="px-3 py-2 flex items-center justify-between">
                 <div>
                   <div className="font-medium">{f.book?.title}</div>
-                  <div className="text-[11px] text-slate-400">Issue: {new Date(f.issueDate).toLocaleDateString()}</div>
-                  {isOverdue && <div className="text-[11px] text-amber-300">Overdue: {new Date(f.dueDate).toLocaleDateString()} ({daysOverdue} days)</div>}
+                  <div className="text-[11px] text-slate-400">Issue: {formatDate(f.issueDate)}</div>
+                  {isOverdue && <div className="text-[11px] text-amber-700">Overdue: {formatDate(f.dueDate)} ({daysOverdue} days)</div>}
                 </div>
                 <div className="text-right">
                   <div className="text-sm font-semibold">{fmt(f.fineAmount)}</div>
-                  <div className="text-[11px] text-slate-400">{f.finePaid ? `Paid ${new Date(f.finePaidAt).toLocaleDateString()}` : "Pending"}</div>
+                  <div className="text-[11px] text-slate-400">{f.finePaid ? `Paid ${formatDate(f.finePaidAt)}` : "Pending"}</div>
                 </div>
               </li>
             );

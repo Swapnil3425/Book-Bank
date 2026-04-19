@@ -24,7 +24,7 @@ router.post(
     }
 
     const prompt = `
-You are an assistant for a college Book Bank Management System called "BookBankV3".
+You are an assistant for a college Book Bank Management System called "IIITP BookBank".
 
 The user might ask:
 - What is BookBank?
@@ -84,7 +84,7 @@ async function buildContext(user, userMessage) {
       .slice(0, 10)
       .map(
         (b) =>
-          `- "${b.book?.title}" (status: ${b.status}, due: ${b.dueDate.toDateString()})`
+          `- "${b.book?.title}" (status: ${b.status}, due: ${b.dueDate.toLocaleDateString("en-GB")})`
       )
       .join("\n");
   } else if (user.role === "admin") {
@@ -103,7 +103,7 @@ async function buildContext(user, userMessage) {
           .join("\n");
 
   return `
-You are an AI assistant for a college book bank management system called "BookBankV3".
+You are an AI assistant for a college book bank management system called "IIITP BookBank".
 Always answer concisely and clearly. Use the context below.
 
 USER DETAILS:

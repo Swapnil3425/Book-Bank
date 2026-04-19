@@ -49,7 +49,7 @@ const ForgotPasswordPage = () => {
           <label className="flex flex-col gap-1 text-sm text-slate-200">
             <span>Email</span>
             <input
-              className="rounded-xl border border-slate-700 bg-slate-900/60 px-3 py-2 text-sm outline-none focus:border-primary-400 focus:ring-1 focus:ring-primary-500"
+              className="rounded-xl border border-slate-600 bg-slate-800/60 px-3 py-2 text-sm outline-none focus:border-primary-400 focus:ring-1 focus:ring-primary-400"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -60,7 +60,7 @@ const ForgotPasswordPage = () => {
           <button
             type="submit"
             disabled={loading}
-            className="mt-2 flex w-full items-center justify-center rounded-xl bg-primary-500 px-4 py-2 text-sm font-medium text-slate-950 hover:bg-primary-400 disabled:cursor-not-allowed disabled:opacity-70"
+            className="mt-2 flex w-full items-center justify-center rounded-xl bg-primary-500 px-4 py-2 text-sm font-medium text-white hover:bg-primary-400 disabled:cursor-not-allowed disabled:opacity-70"
           >
             {loading ? "Sending..." : "Send reset link"}
           </button>

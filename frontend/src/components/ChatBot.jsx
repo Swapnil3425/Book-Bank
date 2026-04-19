@@ -62,18 +62,18 @@ const ChatBot = () => {
       {/* Toggle button */}
       <button
         onClick={() => setOpen((v) => !v)}
-        className="mb-2 flex items-center gap-2 rounded-full bg-primary-500 px-3 py-1.5 text-xs font-semibold text-slate-950 shadow-lg shadow-primary-500/40 hover:bg-primary-400"
+        className="mb-2 flex items-center gap-2 rounded-full bg-primary-500 px-3 py-1.5 text-xs font-semibold text-white shadow-lg shadow-primary-500/40 hover:bg-primary-400"
       >
         {open ? "Close chat" : "Chat with assistant"}
       </button>
 
       {open && (
         <div className="card-glass flex h-96 w-80 flex-col border border-primary-500/40">
-          <div className="flex items-center justify-between border-b border-slate-800 px-3 py-2 text-xs">
-            <span className="font-semibold text-slate-100">
+          <div className="flex items-center justify-between border-b border-slate-700 px-3 py-2 text-xs">
+            <span className="font-semibold text-slate-50">
               📚 BookBank Assistant
             </span>
-            <span className="rounded-full bg-emerald-500/20 px-2 py-0.5 text-[10px] text-emerald-300">
+            <span className="rounded-full bg-emerald-500/20 px-2 py-0.5 text-[10px] text-green-700">
               Online
             </span>
           </div>
@@ -90,8 +90,8 @@ const ChatBot = () => {
                 <span
                   className={`max-w-[85%] whitespace-pre-line rounded-xl px-2 py-1 ${
                     m.from === "user"
-                      ? "bg-primary-500/80 text-slate-950"
-                      : "bg-slate-800/90 text-slate-100"
+                      ? "bg-primary-500/80 text-white"
+                      : "bg-slate-800 text-slate-50"
                   }`}
                 >
                   {m.text}
@@ -100,7 +100,7 @@ const ChatBot = () => {
             ))}
             {loading && (
               <div className="mt-1 flex justify-start text-[11px] text-slate-400">
-                <span className="inline-flex items-center gap-1 rounded-xl bg-slate-800/80 px-2 py-1">
+                <span className="inline-flex items-center gap-1 rounded-xl bg-slate-800 px-2 py-1">
                   <span className="h-2 w-2 animate-pulse rounded-full bg-primary-400" />
                   Thinking...
                 </span>
@@ -109,19 +109,19 @@ const ChatBot = () => {
           </div>
 
           {/* Input */}
-          <div className="flex items-center gap-1 border-t border-slate-800 p-2">
+          <div className="flex items-center gap-1 border-t border-slate-700 p-2">
             <textarea
               rows={1}
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
-              className="max-h-16 flex-1 resize-none rounded-lg bg-slate-900/70 px-2 py-1 text-xs text-slate-100 outline-none focus:border focus:border-primary-400"
+              className="max-h-16 flex-1 resize-none rounded-lg bg-slate-800/60 px-2 py-1 text-xs text-slate-50 outline-none focus:border focus:border-primary-400"
               placeholder="Ask about books, borrowing, etc..."
             />
             <button
               onClick={sendMessage}
               disabled={loading || !input.trim()}
-              className="rounded-lg bg-primary-500 px-2 py-1 text-xs font-semibold text-slate-950 hover:bg-primary-400 disabled:cursor-not-allowed disabled:opacity-60"
+              className="rounded-lg bg-primary-500 px-2 py-1 text-xs font-semibold text-white hover:bg-primary-400 disabled:cursor-not-allowed disabled:opacity-60"
             >
               ➤
             </button>

@@ -119,13 +119,13 @@ const VerificationRequestsPage = () => {
         </div>
 
         {/* Filter Tabs */}
-        <div className="flex gap-2 border-b border-slate-800">
+        <div className="flex gap-2 border-b border-slate-700">
           {["pending", "approved", "rejected"].map((status) => (
             <button
               key={status}
               onClick={() => setFilter(status)}
               className={`px-4 py-2 text-sm font-medium border-b-2 transition ${filter === status
-                  ? "border-cyan-400 text-cyan-300"
+                  ? "border-cyan-400 text-primary-700"
                   : "border-transparent text-slate-400 hover:text-slate-300"
                 }`}
             >
@@ -146,7 +146,7 @@ const VerificationRequestsPage = () => {
             {pendingUsers.map((user) => (
               <div
                 key={user._id}
-                className="card-glass p-4 flex items-start justify-between hover:bg-slate-800/30 transition"
+                className="card-glass p-4 flex items-start justify-between hover:bg-slate-800 transition"
               >
                 <div className="flex-1">
                   <p className="text-sm font-semibold text-slate-50">
@@ -161,7 +161,7 @@ const VerificationRequestsPage = () => {
                     </p>
                   )}
                   {user.verificationNotes && (
-                    <p className="text-xs text-amber-300 mt-2">
+                    <p className="text-xs text-amber-700 mt-2">
                       📝 {user.verificationNotes}
                     </p>
                   )}
@@ -218,13 +218,13 @@ const VerificationModal = ({
         className="card-glass w-full max-w-2xl p-6 rounded-lg my-8"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between mb-4 border-b border-slate-700 pb-4">
-          <h3 className="text-lg font-semibold text-cyan-300">
+        <div className="flex items-center justify-between mb-4 border-b border-slate-600 pb-4">
+          <h3 className="text-lg font-semibold text-primary-700">
             ID Verification Review
           </h3>
           <button
             onClick={onClose}
-            className="px-2 py-1 text-sm rounded-md bg-slate-800/80 text-slate-300 hover:bg-slate-700"
+            className="px-2 py-1 text-sm rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700"
           >
             ✕
           </button>
@@ -257,10 +257,10 @@ const VerificationModal = ({
               <p className="text-xs text-slate-400 uppercase">Status</p>
               <span
                 className={`inline-flex mt-1 items-center rounded-full px-2 py-1 text-xs font-semibold ${user.verificationStatus === "pending"
-                    ? "bg-yellow-500/20 text-yellow-300 border border-yellow-400/40"
+                    ? "bg-yellow-50 text-yellow-700 border border-yellow-400/40"
                     : user.verificationStatus === "approved"
-                      ? "bg-emerald-500/20 text-emerald-300 border border-emerald-400/40"
-                      : "bg-red-500/20 text-red-300 border border-red-400/40"
+                      ? "bg-emerald-500/20 text-green-700 border border-emerald-400/40"
+                      : "bg-red-50 text-red-700 border border-red-200"
                   }`}
               >
                 {user.verificationStatus.toUpperCase()}
@@ -270,19 +270,19 @@ const VerificationModal = ({
 
           {/* ID Photo */}
           {user.idPhotoPath && (
-            <div className="border-t border-slate-700 pt-4">
+            <div className="border-t border-slate-600 pt-4">
               <p className="text-xs text-slate-400 uppercase mb-3">ID Photo</p>
               <img
                 src={`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/${user.idPhotoPath}`}
                 alt="Student ID"
-                className="max-h-72 rounded-lg mx-auto border border-slate-700"
+                className="max-h-72 rounded-lg mx-auto border border-slate-600"
               />
             </div>
           )}
 
           {/* Action Buttons */}
           {user.verificationStatus === "pending" && (
-            <div className="border-t border-slate-700 pt-4 space-y-3">
+            <div className="border-t border-slate-600 pt-4 space-y-3">
               {!showRejectForm ? (
                 <>
                   <button
@@ -306,7 +306,7 @@ const VerificationModal = ({
                     value={rejectNotes}
                     onChange={(e) => setRejectNotes(e.target.value)}
                     placeholder="Reason for rejection (visible to user)..."
-                    className="w-full rounded border border-slate-700 bg-slate-900/50 px-3 py-2 text-sm text-slate-50 placeholder-slate-500 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500"
+                    className="w-full rounded border border-slate-600 bg-slate-800/60 px-3 py-2 text-sm text-slate-50 placeholder-slate-500 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500"
                     rows="3"
                   />
                   <div className="flex gap-2">

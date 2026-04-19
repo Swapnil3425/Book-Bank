@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import FormInput from "../components/FormInput";
 import { useAuth } from "../hooks/useAuth";
 import Toast from "../components/Toast";
 import api from "../api/axios";
+import logo from "../assets/logo.png";
 
 const RegisterPage = () => {
   const { register } = useAuth();
@@ -99,28 +100,34 @@ const RegisterPage = () => {
         type={toast.type}
         onClose={() => setToast({ ...toast, message: "" })}
       />
-      <div className="mt-8 flex justify-center">
-        <form onSubmit={handleSubmit} className="card-glass w-full max-w-2xl space-y-4 p-6">
-          <h2 className="text-lg font-semibold text-slate-50">
-            Student Registration
-          </h2>
-          <p className="text-xs text-slate-400">
-            Provide your details to get access to the Book Bank portal.
-          </p>
+      <div className="mt-8 flex flex-col items-center justify-center">
+        <Link to="/" className="mb-6 flex flex-col items-center gap-2">
+          <img src={logo} alt="Book Bank Logo" className="h-16 w-16 object-contain" />
+          <span className="text-xl font-bold tracking-tight text-slate-50">Book Bank</span>
+        </Link>
+        <form onSubmit={handleSubmit} className="card-glass w-full max-w-2xl space-y-5 p-8">
+          <div className="text-center mb-2">
+            <h2 className="text-2xl font-bold text-slate-50">
+              Student Registration
+            </h2>
+            <p className="text-sm text-slate-400 mt-2">
+              Provide your details to get access to the Book Bank portal.
+            </p>
+          </div>
 
           {/* Member Type Selection */}
-          <div className="space-y-2 border-b border-slate-700 pb-4">
-            <p className="text-sm font-medium text-slate-300">Are you a college member?</p>
-            <div className="flex gap-4">
+          <div className="space-y-3 border-b border-slate-700 pb-5">
+            <p className="text-sm font-semibold text-slate-200">Are you a college member?</p>
+            <div className="flex gap-5">
               <label className="flex items-center gap-2 cursor-pointer">
                 <input
                   type="radio"
                   name="memberType"
                   checked={isMember}
                   onChange={() => setIsMember(true)}
-                  className="w-4 h-4"
+                  className="w-4 h-4 text-primary-600 border-slate-600 focus:ring-primary-400"
                 />
-                <span className="text-sm text-slate-400">Yes, I have an institutional ID</span>
+                <span className="text-sm font-medium text-slate-300">Yes, I have an institutional ID</span>
               </label>
               <label className="flex items-center gap-2 cursor-pointer">
                 <input
@@ -128,16 +135,16 @@ const RegisterPage = () => {
                   name="memberType"
                   checked={!isMember}
                   onChange={() => setIsMember(false)}
-                  className="w-4 h-4"
+                  className="w-4 h-4 text-primary-600 border-slate-600 focus:ring-primary-400"
                 />
-                <span className="text-sm text-slate-400">No, I need to submit ID for verification</span>
+                <span className="text-sm font-medium text-slate-300">No, I need to verify ID</span>
               </label>
             </div>
 
             {!isMember && (
-              <div className="mt-3 inline-flex items-center gap-3 text-sm">
-                <span className="px-2 py-1 rounded bg-amber-600 text-slate-900 font-semibold text-xs">Temporary ID</span>
-                <span className="text-xs text-slate-400">We will assign a temporary ID like <code className="font-mono">PENDING-123456</code>. Admin will update your official institutional ID after verification.</span>
+              <div className="mt-3 inline-flex items-center gap-3 text-sm p-3 bg-orange-50 rounded-lg border border-orange-100">
+                <span className="px-2 py-1 rounded bg-orange-100 text-orange-800 font-semibold text-xs whitespace-nowrap">Temporary ID</span>
+                <span className="text-xs text-orange-800">We will assign a temporary ID. Admin will update your official institutional ID after verification.</span>
               </div>
             )}
           </div>
@@ -197,18 +204,18 @@ const RegisterPage = () => {
 
           {/* ID Verification Section for Non-Members */}
           {!isMember && (
-            <div className="space-y-3 border-t border-slate-700 pt-4">
+            <div className="space-y-4 border-t border-slate-700 pt-5">
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2">
+                <label className="block text-sm font-semibold text-slate-200 mb-2">
                   Upload ID Photo (Aadhar/Passport/Voter ID)
                 </label>
-                <div className="border-2 border-dashed border-slate-700 rounded-lg p-4">
+                <div className="border-2 border-dashed border-slate-600 rounded-lg p-6 bg-slate-900/60 hover:bg-slate-800 transition-colors">
                   {idPhotoPreview ? (
-                    <div className="space-y-2">
+                    <div className="space-y-3">
                       <img
                         src={idPhotoPreview}
                         alt="ID Preview"
-                        className="max-h-48 rounded-lg mx-auto"
+                        className="max-h-48 rounded-lg mx-auto shadow-sm"
                       />
                       <button
                         type="button"
@@ -216,13 +223,13 @@ const RegisterPage = () => {
                           setIdPhoto(null);
                           setIdPhotoPreview(null);
                         }}
-                        className="w-full text-xs text-red-400 hover:text-red-300"
+                        className="w-full text-sm font-medium text-red-600 hover:text-red-700"
                       >
                         Remove Photo
                       </button>
                     </div>
                   ) : (
-                    <label className="cursor-pointer">
+                    <label className="cursor-pointer block text-center">
                       <input
                         type="file"
                         accept="image/*"
@@ -230,19 +237,19 @@ const RegisterPage = () => {
                         className="hidden"
                         required={!isMember}
                       />
-                      <div className="text-center py-6">
-                        <p className="text-sm text-slate-400">
+                      <div className="py-4">
+                        <p className="text-sm font-medium text-primary-600">
                           Click to upload or drag and drop
                         </p>
-                        <p className="text-xs text-slate-500 mt-1">
+                        <p className="text-xs text-slate-400 mt-1">
                           PNG, JPG, GIF up to 5MB
                         </p>
                       </div>
                     </label>
                   )}
                 </div>
-                <p className="text-xs text-slate-400 mt-2">
-                  ℹ️ Your ID will be reviewed by admin. Access to library will be granted after approval.
+                <p className="text-xs text-slate-400 mt-2 flex items-center gap-1">
+                  <span className="text-primary-500">ℹ️</span> Your ID will be reviewed by admin. Access to library will be granted after approval.
                 </p>
               </div>
             </div>
@@ -251,7 +258,7 @@ const RegisterPage = () => {
           <button
             type="submit"
             disabled={loading}
-            className="mt-4 flex w-full items-center justify-center rounded-xl bg-primary-500 px-4 py-2 text-sm font-medium text-slate-950 hover:bg-primary-400 disabled:cursor-not-allowed disabled:opacity-70"
+            className="mt-6 flex w-full items-center justify-center btn-primary disabled:opacity-70 disabled:cursor-not-allowed"
           >
             {loading ? "Creating account..." : "Register"}
           </button>

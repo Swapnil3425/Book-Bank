@@ -66,15 +66,15 @@ const ChatPage = () => {
   return (
     <section className="mt-4 flex flex-col items-center">
       <div className="mb-4 text-center">
-        <h2 className="text-xl font-semibold text-slate-900">
+        <h2 className="text-xl font-semibold text-slate-50">
           BookBank Assistant
         </h2>
-        <p className="text-sm text-slate-500">
+        <p className="text-sm text-slate-400">
           Ask doubts about the portal, borrowing rules, book status and
           recommendations.
         </p>
         {!user && (
-          <p className="mt-1 text-[11px] text-slate-500">
+          <p className="mt-1 text-[11px] text-slate-400">
             You’re chatting as a guest.{" "}
             <span className="text-cyan-600 font-medium">
               Login for personalized answers based on your account.
@@ -83,9 +83,9 @@ const ChatPage = () => {
         )}
       </div>
 
-      <div className="rounded-2xl bg-white/80 shadow-lg border border-slate-200 w-full max-w-3xl flex h-[26rem] flex-col">
+      <div className="rounded-2xl bg-slate-800 shadow-xl border border-slate-700 w-full max-w-3xl flex h-[26rem] flex-col">
         {/* messages */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-2 text-xs bg-gradient-to-br from-slate-50 to-slate-100">
+        <div className="flex-1 overflow-y-auto p-4 space-y-2 text-xs bg-slate-900/40 rounded-t-2xl">
           {messages.map((m, idx) => (
             <div
               key={idx}
@@ -97,7 +97,7 @@ const ChatPage = () => {
                 className={`max-w-[80%] whitespace-pre-line rounded-2xl px-3 py-2 shadow-sm ${
                   m.from === "user"
                     ? "bg-cyan-500 text-white"
-                    : "bg-white text-slate-900 border border-slate-100"
+                    : "bg-slate-800 text-slate-50 border border-slate-700"
                 }`}
               >
                 {m.text}
@@ -105,8 +105,8 @@ const ChatPage = () => {
             </div>
           ))}
           {loading && (
-            <div className="flex justify-start text-[11px] text-slate-500">
-              <div className="inline-flex items-center gap-2 rounded-2xl bg-white px-3 py-1 shadow-sm border border-slate-100">
+            <div className="flex justify-start text-[11px] text-slate-400">
+              <div className="inline-flex items-center gap-2 rounded-2xl bg-slate-800 px-3 py-1 shadow-sm border border-slate-700">
                 <span className="h-2 w-2 animate-pulse rounded-full bg-cyan-500" />
                 Thinking...
               </div>
@@ -116,7 +116,7 @@ const ChatPage = () => {
         </div>
 
         {/* input */}
-        <div className="border-t border-slate-200 bg-white p-3">
+        <div className="border-t border-slate-700 bg-slate-800 p-3 rounded-b-2xl">
           <div className="flex items-end gap-2">
             <textarea
               rows={1}
@@ -124,7 +124,7 @@ const ChatPage = () => {
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder="Type your question here..."
-              className="flex-1 resize-none rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-900 outline-none focus:border-cyan-500"
+              className="flex-1 resize-none rounded-xl border border-slate-600 bg-slate-900/50 px-3 py-2 text-xs text-slate-50 outline-none focus:border-cyan-500"
             />
             <button
               onClick={sendMessage}

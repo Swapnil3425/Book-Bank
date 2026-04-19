@@ -35,14 +35,22 @@ async function generateGeminiText(prompt) {
     "x-goog-api-key": GEMINI_API_KEY
   };
 
-  const { data } = await axios.post(url, body, { headers });
+  try {
+    const { data } = await axios.post(url, body, { headers });
 
-  const candidate = data.candidates && data.candidates[0];
-  const content = candidate && candidate.content;
-  const parts = content && content.parts;
-  const text = parts && parts[0] && parts[0].text;
+    const candidate = data.candidates && data.candidates[0];
+    const content = candidate && candidate.content;
+    const parts = content && content.parts;
+    const text = parts && parts[0] && parts[0].text;
 
-  return text || "I couldn’t generate a proper response just now.";
+    return text || "I couldn’t generate a proper response just now.";
+  } catch (error) {
+    console.error("[Gemini API Error]", error.response?.data || error.message);
+    if (error.response?.status === 429) {
+      return "The chatbot is currently experiencing high traffic and exceeded its quota. Please try again later.";
+    }
+    return "I encountered an error connecting to the AI brain. Please try again later.";
+  }
 }
 
 module.exports = {

@@ -15,21 +15,21 @@ const Sidebar = () => {
   }, [pathname]);
 
   const navItemClass = (active) =>
-    `flex items-center justify-between rounded-xl px-3 py-2 text-sm transition-colors ${active
-      ? "bg-slate-800 text-primary-200"
-      : "text-slate-300 hover:bg-slate-800/70 hover:text-primary-200"
+    `flex items-center justify-between rounded-lg px-3 py-2 text-sm font-medium transition-colors ${active
+      ? "bg-slate-800 text-primary-400"
+      : "text-slate-400 hover:bg-slate-800 hover:text-slate-50"
     }`;
 
   const renderChatBadge = () =>
     chatSeen ? null : (
-      <span className="ml-2 h-2 w-2 rounded-full bg-cyan-400 shadow-[0_0_10px_#22d3ee]" />
+      <span className="ml-2 h-2 w-2 rounded-full bg-blue-500" />
     );
 
   // GUEST SIDEBAR: only chat
   if (!user) {
     return (
-      <aside className="hidden w-56 flex-shrink-0 border-r border-slate-800 bg-slate-950/70 px-3 py-4 md:block">
-        <div className="text-xs text-slate-400 mb-2">Quick Help</div>
+      <aside className="hidden w-56 flex-shrink-0 px-3 py-4 md:block bg-transparent">
+        <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3 px-3">Quick Help</div>
         <Link
           to="/chat"
           className={navItemClass(pathname === "/chat")}
@@ -44,7 +44,7 @@ const Sidebar = () => {
   // STUDENT LINKS
   if (user.role === "student") {
     return (
-      <aside className="hidden w-56 flex-shrink-0 border-r border-slate-800 bg-slate-950/70 px-3 py-4 md:block">
+      <aside className="hidden w-56 flex-shrink-0 px-3 py-4 md:block bg-transparent">
         <nav className="flex flex-col gap-1 text-sm">
           <Link
             to="/dashboard"
@@ -71,7 +71,7 @@ const Sidebar = () => {
             <span>My Reports</span>
           </Link>
 
-          <div className="mt-3 border-t border-slate-800 pt-3">
+          <div className="mt-4 pt-4 border-t border-slate-700">
             <Link
               to="/chat"
               className={navItemClass(pathname === "/chat")}
@@ -87,7 +87,7 @@ const Sidebar = () => {
 
   // ADMIN LINKS
   return (
-    <aside className="hidden w-56 flex-shrink-0 border-r border-slate-800 bg-slate-950/70 px-3 py-4 md:block">
+    <aside className="hidden w-56 flex-shrink-0 px-3 py-4 md:block bg-transparent">
       <nav className="flex flex-col gap-1 text-sm">
         <Link
           to="/admin"
@@ -127,7 +127,7 @@ const Sidebar = () => {
           <span>Reports</span>
         </Link>
 
-        <div className="mt-3 border-t border-slate-800 pt-3">
+        <div className="mt-4 pt-4 border-t border-slate-700">
           <Link
             to="/chat"
             className={navItemClass(pathname === "/chat")}

@@ -1,6 +1,7 @@
 // frontend/src/components/Navbar.jsx
 import { Link } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
+import logo from "../assets/logo.png";
 
 const Navbar = () => {
   const { user, logout } = useAuth();
@@ -12,13 +13,11 @@ const Navbar = () => {
     : "/";
 
   return (
-    <header className="sticky top-0 z-30 border-b border-slate-800 bg-slate-950/70 backdrop-blur">
+    <header className="sticky top-0 z-30 border-b border-slate-700 bg-slate-800/60 shadow-sm">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
         {/* Logo / Title */}
         <Link to={homePath} className="flex items-center gap-2">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-tr from-primary-500 to-sky-400 text-slate-950 font-black">
-            BB
-          </div>
+          <img src={logo} alt="Book Bank Logo" className="h-9 w-9 object-contain" />
           <div className="hidden flex-col leading-tight sm:flex">
             <span className="text-xs text-slate-400 uppercase tracking-[0.18em]">
               Book Bank
@@ -30,16 +29,16 @@ const Navbar = () => {
         </Link>
 
         {/* Center navigation */}
-        <div className="hidden items-center gap-4 text-xs text-slate-300 sm:flex">
+        <div className="hidden items-center gap-4 text-sm font-medium text-slate-400 sm:flex">
           <Link
             to="/"
-            className="hover:text-primary-300 transition-colors"
+            className="hover:text-primary-600 transition-colors"
           >
             Home
           </Link>
           <Link
             to="/chat"
-            className="rounded-full border border-cyan-500/40 bg-cyan-500/10 px-3 py-1 text-xs font-medium text-cyan-200 hover:bg-cyan-500/20"
+            className="rounded-lg border border-slate-700 bg-slate-900/60 px-3 py-1.5 hover:bg-slate-800 hover:border-slate-600 transition-colors text-slate-300"
           >
             💬 Chat Assistant
           </Link>
@@ -51,14 +50,14 @@ const Navbar = () => {
             <>
               <Link
                 to="/profile"
-                className="hidden items-center gap-1 rounded-full border border-slate-800 bg-slate-900/60 px-3 py-1 text-xs text-slate-300 sm:inline-flex"
+                className="hidden items-center gap-1.5 rounded-lg border border-slate-700 bg-slate-900/60 px-3 py-1.5 text-slate-300 sm:inline-flex hover:bg-slate-800 transition-colors"
               >
-                <span className="h-2 w-2 rounded-full bg-emerald-400 mr-1" />
-                {user.name} · {user.role.toUpperCase()}
+                <span className="h-2 w-2 rounded-full bg-green-500" />
+                <span className="font-medium">{user.name}</span> <span className="text-slate-500">·</span> <span className="text-xs text-slate-400">{user.role.toUpperCase()}</span>
               </Link>
               <button
                 onClick={logout}
-                className="rounded-full bg-slate-800 px-3 py-1 text-xs font-medium text-slate-100 hover:bg-slate-700"
+                className="rounded-lg bg-slate-800 border border-slate-700 px-3 py-1.5 font-medium text-slate-300 hover:bg-slate-700 transition-colors"
               >
                 Logout
               </button>
@@ -67,13 +66,13 @@ const Navbar = () => {
             <>
               <Link
                 to="/login"
-                className="rounded-full px-3 py-1 text-xs font-medium border border-slate-700 text-slate-200 hover:border-primary-500/70"
+                className="rounded-lg px-4 py-2 font-medium bg-slate-800 text-slate-200 hover:bg-slate-700 transition-colors"
               >
                 Login
               </Link>
               <Link
                 to="/register"
-                className="hidden rounded-full px-3 py-1 text-xs font-medium border border-slate-700 text-slate-200 hover:border-primary-500/70 sm:inline-block"
+                className="hidden rounded-lg px-4 py-2 font-medium bg-primary-600 text-white hover:bg-primary-700 transition-colors shadow-sm sm:inline-block"
               >
                 Register
               </Link>

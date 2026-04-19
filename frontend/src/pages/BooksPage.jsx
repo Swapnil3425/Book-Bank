@@ -31,7 +31,7 @@ const BooksPage = () => {
   const handleBorrow = async (bookId) => {
     try {
       const due = new Date();
-      due.setDate(due.getDate() + 14); // 2 weeks
+      due.setDate(due.getDate() + 15); // 15 days
       await api.post("/borrows", { bookId, dueDate: due });
       setToast({ message: "Borrow request successful", type: "success" });
       fetchBooks(search);
@@ -66,11 +66,11 @@ const BooksPage = () => {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by title or author..."
-              className="w-52 rounded-xl border border-slate-700 bg-slate-900/60 px-3 py-1.5 text-xs text-slate-100 outline-none focus:border-primary-400 focus:ring-1 focus:ring-primary-500"
+              className="w-52 rounded-xl border border-slate-600 bg-slate-800/60 px-3 py-1.5 text-xs text-slate-50 outline-none focus:border-primary-400 focus:ring-1 focus:ring-primary-400"
             />
             <button
               onClick={() => fetchBooks(search)}
-              className="rounded-xl bg-slate-800 px-3 py-1.5 text-xs font-medium text-slate-100 hover:bg-slate-700"
+              className="rounded-xl bg-slate-800 px-3 py-1.5 text-xs font-medium text-slate-50 hover:bg-slate-700"
             >
               Search
             </button>

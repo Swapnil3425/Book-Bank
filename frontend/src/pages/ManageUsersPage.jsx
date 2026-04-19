@@ -70,14 +70,14 @@ const ManageUsersPage = () => {
       />
       <section className="space-y-6">
         <div>
-          <h2 className="text-xl font-semibold text-cyan-300">Manage Users</h2>
+          <h2 className="text-xl font-semibold text-primary-700">Manage Users</h2>
           <p className="text-sm text-slate-400">
             View all student accounts, their status and borrowing summary.
           </p>
         </div>
 
         <div className="card-glass p-4">
-          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3 text-xs">
+          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-700 pb-3 text-xs">
             <div className="flex items-center gap-2">
               <input
                 value={search}
@@ -107,7 +107,7 @@ const ManageUsersPage = () => {
                 <option value="blocked">Blocked</option>
               </select>
             </div>
-            <p className="text-[11px] text-slate-500">
+            <p className="text-[11px] text-slate-400">
               Showing {filteredUsers.length} of {users.length}
             </p>
           </div>
@@ -115,7 +115,7 @@ const ManageUsersPage = () => {
           <div className="max-h-[420px] overflow-auto text-sm mt-3">
             <table className="w-full text-left border-collapse table-glass">
               <thead>
-                <tr className="text-xs text-cyan-300 border-b border-slate-700 uppercase">
+                <tr className="text-xs text-primary-700 border-b border-slate-600 uppercase">
                   <th className="px-3 py-2">Institutional ID</th>
                   <th className="px-3 py-2">Name</th>
                   <th className="px-3 py-2">Course</th>
@@ -128,23 +128,23 @@ const ManageUsersPage = () => {
                   <tr
                     key={u._id}
                     onClick={() => setSelectedUser(u)}
-                    className="hover:bg-slate-900/60 transition border-b border-slate-800 cursor-pointer"
+                    className="hover:bg-slate-800/60 transition border-b border-slate-700 cursor-pointer"
                   >
                     <td className="px-3 py-2 text-slate-200">
                       {u.institutionalId}
                     </td>
-                    <td className="px-3 py-2 text-slate-100">{u.name}</td>
+                    <td className="px-3 py-2 text-slate-50">{u.name}</td>
                     <td className="px-3 py-2 text-slate-300">
                       {u.course || "-"}
                     </td>
                     <td className="px-3 py-2 text-slate-300">{u.email}</td>
                     <td className="px-3 py-2 text-right">
                       {u.isBlocked ? (
-                        <span className="rounded-full bg-red-500/20 px-2 py-0.5 text-[11px] font-semibold text-red-300 border border-red-400/30">
+                        <span className="rounded-full bg-red-50 px-2 py-0.5 text-[11px] font-semibold text-red-700 border border-red-400/30">
                           BLOCKED
                         </span>
                       ) : (
-                        <span className="rounded-full bg-emerald-500/20 px-2 py-0.5 text-[11px] font-semibold text-emerald-300 border border-emerald-400/30">
+                        <span className="rounded-full bg-emerald-500/20 px-2 py-0.5 text-[11px] font-semibold text-green-700 border border-emerald-400/30">
                           ACTIVE
                         </span>
                       )}
@@ -155,7 +155,7 @@ const ManageUsersPage = () => {
                   <tr>
                     <td
                       colSpan={5}
-                      className="py-4 text-center text-xs text-slate-500"
+                      className="py-4 text-center text-xs text-slate-400"
                     >
                       No users match your filters.
                     </td>
@@ -253,8 +253,8 @@ const UserDetailModal = ({ user, onClose, onUpdated, setToast }) => {
           className="card-glass w-full max-w-2xl p-4"
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="flex items-center justify-between border-b border-slate-700 pb-2 mb-3">
-            <h4 className="text-cyan-300 font-semibold text-sm">User Details</h4>
+          <div className="flex items-center justify-between border-b border-slate-600 pb-2 mb-3">
+            <h4 className="text-primary-700 font-semibold text-sm">User Details</h4>
             <button
               onClick={onClose}
               className="text-slate-400 hover:text-slate-200 text-lg"

@@ -2,6 +2,7 @@ import { useEffect, useState, useMemo } from "react";
 import api from "../api/axios";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { showToast } from "../utils/toastService";
+import { formatDate } from "../utils/formatDate";
 
 const fmt = (val) => {
   try {
@@ -110,7 +111,7 @@ const AdminFinesPage = () => {
   return (
     <section className="space-y-4">
       <div>
-        <h2 className="text-xl font-semibold text-cyan-300">Fines Overview</h2>
+        <h2 className="text-xl font-semibold text-primary-700">Fines Overview</h2>
         <p className="text-sm text-slate-400">Summary of fines across the system.</p>
       </div>
 
@@ -131,7 +132,7 @@ const AdminFinesPage = () => {
 
       <div className="card-glass p-4">
         <div className="flex items-center justify-between mb-3">
-          <h3 className="text-sm font-semibold text-slate-100">Fines By Student</h3>
+          <h3 className="text-sm font-semibold text-slate-50">Fines By Student</h3>
           <div className="flex items-center gap-2">
             <input
               value={searchQuery}
@@ -153,7 +154,7 @@ const AdminFinesPage = () => {
 
         <div className="max-h-[520px] overflow-auto">
           <table className="min-w-full text-xs">
-            <thead className="text-slate-400 uppercase text-[11px] border-b border-slate-800 sticky top-0 bg-slate-900/80">
+            <thead className="text-slate-400 uppercase text-[11px] border-b border-slate-700 sticky top-0 bg-slate-800/60">
               <tr>
                 <th className="px-3 py-2 text-left">Student</th>
                 <th className="px-3 py-2 text-left">Total</th>
@@ -164,8 +165,8 @@ const AdminFinesPage = () => {
             </thead>
             <tbody>
               {filteredByStudent.map((b) => (
-                <tr key={b._id} className="border-b border-slate-800/60">
-                  <td className="px-3 py-2">{b.student?.name} <div className="text-[11px] text-slate-500">{b.student?.institutionalId}</div></td>
+                <tr key={b._id} className="border-b border-slate-700/60">
+                  <td className="px-3 py-2">{b.student?.name} <div className="text-[11px] text-slate-400">{b.student?.institutionalId}</div></td>
                   <td className="px-3 py-2">{fmt(b.totalFines)}</td>
                   <td className="px-3 py-2">{fmt(b.pending)}</td>
                   <td className="px-3 py-2">{fmt(b.received)}</td>
@@ -189,7 +190,7 @@ const AdminFinesPage = () => {
 
       {expandedStudent && (
         <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/30 backdrop-blur-sm" onClick={() => setExpandedStudent(null)}>
-          <div className="bg-slate-900 rounded-lg shadow-xl w-full max-w-2xl max-h-[80vh] p-4 flex flex-col border border-slate-800" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
+          <div className="bg-slate-800/60 rounded-lg shadow-xl w-full max-w-2xl max-h-[80vh] p-4 flex flex-col border border-slate-700" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
             <div className="flex items-start justify-between">
               <div>
                 <h4 className="text-lg font-semibold text-slate-50">{expandedStudentObj?.student?.name || "Student"}</h4>
@@ -244,13 +245,13 @@ const AdminFinesPage = () => {
                   const isOverdue = due && (Date.now() > due.getTime());
                   const daysOverdue = isOverdue ? Math.floor((Date.now() - due.getTime()) / (1000 * 60 * 60 * 24)) : 0;
                   return (
-                    <div key={f._id} className="bg-slate-900/60 border border-slate-800 rounded-lg p-3">
+                    <div key={f._id} className="bg-slate-800/60 border border-slate-700 rounded-lg p-3">
                       <div className="flex items-start justify-between">
                         <div className="flex-1">
                           <div className="font-medium text-slate-50">{f.book?.title}</div>
-                          <div className="text-[12px] text-slate-400">Issued: {new Date(f.issueDate).toLocaleDateString()}</div>
+                          <div className="text-[12px] text-slate-400">Issued: {formatDate(f.issueDate)}</div>
                           {isOverdue && (
-                            <div className="text-[12px] text-amber-300 mt-1">Overdue: {new Date(f.dueDate).toLocaleDateString()} ({daysOverdue} days)</div>
+                            <div className="text-[12px] text-amber-700 mt-1">Overdue: {formatDate(f.dueDate)} ({daysOverdue} days)</div>
                           )}
                         </div>
                         <div className="ml-3 text-right flex-shrink-0">
@@ -298,7 +299,7 @@ const AdminFinesPage = () => {
 
       {confirmCollect && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm" onClick={() => !actionLoading && setConfirmCollect(null)}>
-          <div className="bg-slate-900 rounded-lg shadow-xl w-full max-w-md p-4 border border-slate-800" onClick={(e) => e.stopPropagation()}>
+          <div className="bg-slate-800/60 rounded-lg shadow-xl w-full max-w-md p-4 border border-slate-700" onClick={(e) => e.stopPropagation()}>
             <h4 className="text-sm font-semibold">Confirm Collection</h4>
             <p className="text-sm text-slate-300 mt-2">Are you sure you want to mark <strong>{confirmCollect.title}</strong> — <span className="font-medium">{fmt(confirmCollect.amount)}</span> — as collected?</p>
             <div className="flex gap-2 mt-4">

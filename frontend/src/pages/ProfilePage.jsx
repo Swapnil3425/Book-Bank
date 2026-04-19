@@ -57,7 +57,7 @@ const ProfilePage = () => {
               <input
                 value={user.institutionalId}
                 disabled
-                className="rounded-xl border border-slate-800 bg-slate-900/60 px-3 py-1.5 text-xs text-slate-400"
+                className="rounded-xl border border-slate-700 bg-slate-800/60 px-3 py-1.5 text-xs text-slate-400"
               />
             </label>
             <label className="flex flex-col gap-1">
@@ -65,7 +65,7 @@ const ProfilePage = () => {
               <input
                 value={user.email}
                 disabled
-                className="rounded-xl border border-slate-800 bg-slate-900/60 px-3 py-1.5 text-xs text-slate-400"
+                className="rounded-xl border border-slate-700 bg-slate-800/60 px-3 py-1.5 text-xs text-slate-400"
               />
             </label>
             <label className="flex flex-col gap-1">
@@ -74,7 +74,7 @@ const ProfilePage = () => {
                 name="name"
                 value={form.name}
                 onChange={handleChange}
-                className="rounded-xl border border-slate-700 bg-slate-900/60 px-3 py-1.5 text-xs outline-none focus:border-primary-400 focus:ring-1 focus:ring-primary-500"
+                className="rounded-xl border border-slate-600 bg-slate-800/60 px-3 py-1.5 text-xs outline-none focus:border-primary-400 focus:ring-1 focus:ring-primary-400"
               />
             </label>
             <label className="flex flex-col gap-1">
@@ -83,7 +83,7 @@ const ProfilePage = () => {
                 name="course"
                 value={form.course}
                 onChange={handleChange}
-                className="rounded-xl border border-slate-700 bg-slate-900/60 px-3 py-1.5 text-xs outline-none focus:border-primary-400 focus:ring-1 focus:ring-primary-500"
+                className="rounded-xl border border-slate-600 bg-slate-800/60 px-3 py-1.5 text-xs outline-none focus:border-primary-400 focus:ring-1 focus:ring-primary-400"
               />
             </label>
             <label className="flex flex-col gap-1">
@@ -92,14 +92,14 @@ const ProfilePage = () => {
                 name="phone"
                 value={form.phone}
                 onChange={handleChange}
-                className="rounded-xl border border-slate-700 bg-slate-900/60 px-3 py-1.5 text-xs outline-none focus:border-primary-400 focus:ring-1 focus:ring-primary-500"
+                className="rounded-xl border border-slate-600 bg-slate-800/60 px-3 py-1.5 text-xs outline-none focus:border-primary-400 focus:ring-1 focus:ring-primary-400"
               />
             </label>
           </div>
           <button
             type="submit"
             disabled={loading}
-            className="mt-2 w-full rounded-xl bg-primary-500 px-4 py-2 text-xs font-medium text-slate-950 hover:bg-primary-400 disabled:cursor-not-allowed disabled:opacity-70"
+            className="mt-2 w-full rounded-xl bg-primary-500 px-4 py-2 text-xs font-medium text-white hover:bg-primary-400 disabled:cursor-not-allowed disabled:opacity-70"
           >
             {loading ? "Saving..." : "Save changes"}
           </button>

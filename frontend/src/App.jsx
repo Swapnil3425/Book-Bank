@@ -29,7 +29,7 @@ import ToastContainer from "./components/ToastContainer";
 
 const App = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-100">
+    <div className="min-h-screen bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 text-slate-50 font-sans selection:bg-primary-100 selection:text-primary-900">
       <ToastContainer />
       <Routes>
         <Route element={<Layout />}>

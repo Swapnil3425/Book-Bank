@@ -16,6 +16,7 @@ const bookRoutes = require("./routes/bookRoutes");
 const borrowRoutes = require("./routes/borrowRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const chatbotRoutes = require("./routes/chatbotRoutes"); // 👈 NEW
+const updateSystemState = require("./middleware/updateState");
 
 const Borrow = require("./models/Borrow");
 const sendEmail = require("./utils/email");
@@ -58,8 +59,8 @@ app.get("/api/health", (req, res) => {
 
 app.use("/api/auth", authLimiter, authRoutes); // Apply limiter here
 app.use("/api/books", bookRoutes);
-app.use("/api/borrows", borrowRoutes);
-app.use("/api/admin", adminRoutes);
+app.use("/api/borrows", updateSystemState, borrowRoutes);
+app.use("/api/admin", updateSystemState, adminRoutes);
 app.use("/api/chatbot", chatbotRoutes); // 👈 NEW
 
 // Production: serve frontend
@@ -121,7 +122,7 @@ cron.schedule("0 0 * * *", async () => {
           b.student.email,
           "Book Bank - Book Due Reminder",
           `<p>Dear ${b.student.name},</p>
-           <p>Your borrowed book <strong>${b.book.title}</strong> is due soon on <strong>${b.dueDate.toDateString()}</strong>.</p>
+           <p>Your borrowed book <strong>${b.book.title}</strong> is due soon on <strong>${b.dueDate.toLocaleDateString("en-GB")}</strong>.</p>
            <p>Please ensure it is returned on time.</p>`
         );
       }
@@ -155,7 +156,7 @@ cron.schedule("0 9 * * *", async () => {
           "Book Bank - Book Due in 5 Days",
           `<p>Dear ${b.student.name},</p>
            <p>This is a friendly reminder that your borrowed book <strong>${b.book.title}</strong> is due in <strong>5 days</strong>.</p>
-           <p><strong>Due Date:</strong> ${new Date(b.dueDate).toLocaleDateString()}</p>
+           <p><strong>Due Date:</strong> ${new Date(b.dueDate).toLocaleDateString("en-GB")}</p>
            <p>Please return it on time to avoid overdue penalties.</p>
            <p>Regards,<br/>Book Bank Administration</p>`
         );
@@ -190,7 +191,7 @@ cron.schedule("0 10 * * *", async () => {
           "Book Bank - Book Due in 3 Days",
           `<p>Dear ${b.student.name},</p>
            <p>Your borrowed book <strong>${b.book.title}</strong> is due in <strong>3 days</strong>.</p>
-           <p><strong>Due Date:</strong> ${new Date(b.dueDate).toLocaleDateString()}</p>
+           <p><strong>Due Date:</strong> ${new Date(b.dueDate).toLocaleDateString("en-GB")}</p>
            <p>Please make sure to return it on time.</p>
            <p>Regards,<br/>Book Bank Administration</p>`
         );

@@ -9,7 +9,7 @@ const Toast = ({ message, type = "success", onClose, duration = 4000 }) => {
 
   if (!message) return null;
 
-  const bgClass = type === "success" ? "bg-emerald-600/10 border-emerald-500/40 text-emerald-100" : "bg-rose-600/10 border-rose-500/40 text-rose-100";
+  const bgClass = type === "success" ? "bg-emerald-600/10 border-green-200 text-emerald-100" : "bg-rose-600/10 border-red-200 text-rose-100";
 
   return (
     <div className="fixed inset-x-0 top-16 flex justify-center z-50 pointer-events-none">

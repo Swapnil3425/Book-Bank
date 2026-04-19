@@ -3,21 +3,22 @@ import { useNavigate } from "react-router-dom";
 import api from "../api/axios";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { showToast } from "../utils/toastService";
+import { formatDate } from "../utils/formatDate";
 
 const statusBadgeClass = (status) => {
   if (status === "overdue") {
-    return "bg-red-500/20 text-red-300 border border-red-500/40";
+    return "bg-red-50 text-red-700 border border-red-200";
   }
   if (status === "returned") {
-    return "bg-slate-500/30 text-slate-200 border border-slate-500/40";
+    return "bg-slate-800 text-slate-200 border border-slate-700";
   }
   if (status === "cancelled") {
-    return "bg-yellow-500/20 text-yellow-300 border border-yellow-500/40";
+    return "bg-yellow-50 text-yellow-700 border border-yellow-200";
   }
   if (status === "pending") {
-    return "bg-blue-500/20 text-blue-300 border border-blue-500/40";
+    return "bg-blue-50 text-blue-700 border border-blue-200";
   }
-  return "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40";
+  return "bg-green-50 text-green-700 border border-green-200";
 };
 
 const fmt = (val) => {
@@ -107,7 +108,7 @@ const AdminDashboard = () => {
   return (
     <section className="space-y-6 p-4 md:p-6">
       <div>
-        <h2 className="text-2xl font-semibold text-cyan-300">Admin Overview</h2>
+        <h2 className="text-2xl font-semibold text-primary-700">Admin Overview</h2>
         <p className="text-sm text-slate-400">
           Monitor inventory usage, pending returns and overdue accounts in one
           place.
@@ -117,7 +118,7 @@ const AdminDashboard = () => {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <button
           onClick={() => handleCardClick("students")}
-          className="card-glass w-full text-left px-4 py-3 hover:bg-slate-900/70 transition"
+          className="card-glass w-full text-left px-4 py-3 hover:bg-slate-800/60 transition"
         >
           <p className="text-xs font-medium text-slate-400 uppercase tracking-wide">
             Registered Students
@@ -129,7 +130,7 @@ const AdminDashboard = () => {
 
         <button
           onClick={() => handleCardClick("books")}
-          className="card-glass w-full text-left px-4 py-3 hover:bg-slate-900/70 transition"
+          className="card-glass w-full text-left px-4 py-3 hover:bg-slate-800/60 transition"
         >
           <p className="text-xs font-medium text-slate-400 uppercase tracking-wide">
             Books in Inventory
@@ -141,7 +142,7 @@ const AdminDashboard = () => {
 
         <button
           onClick={() => handleCardClick("issues")}
-          className="card-glass w-full text-left px-4 py-3 hover:bg-slate-900/70 transition"
+          className="card-glass w-full text-left px-4 py-3 hover:bg-slate-800/60 transition"
         >
           <p className="text-xs font-medium text-slate-400 uppercase tracking-wide">
             Total Issues
@@ -153,7 +154,7 @@ const AdminDashboard = () => {
 
         <button
           onClick={() => handleCardClick("overdue")}
-          className="card-glass w-full text-left px-4 py-3 hover:bg-slate-900/70 transition flex items-center justify-between"
+          className="card-glass w-full text-left px-4 py-3 hover:bg-slate-800/60 transition flex items-center justify-between"
         >
           <div>
             <p className="text-xs font-medium text-slate-400 uppercase tracking-wide">
@@ -164,7 +165,7 @@ const AdminDashboard = () => {
             </p>
           </div>
           {stats.overdue > 0 && (
-            <span className="inline-flex items-center rounded-full bg-red-500/20 px-2 py-1 text-[11px] font-semibold text-red-300 border border-red-400/40">
+            <span className="inline-flex items-center rounded-full bg-red-50 px-2 py-1 text-[11px] font-semibold text-red-700 border border-red-200">
               Needs attention
             </span>
           )}
@@ -172,7 +173,7 @@ const AdminDashboard = () => {
 
         <button
           onClick={() => handleCardClick("pending")}
-          className="card-glass w-full text-left px-4 py-3 hover:bg-slate-900/70 transition flex items-center justify-between"
+          className="card-glass w-full text-left px-4 py-3 hover:bg-slate-800/60 transition flex items-center justify-between"
         >
           <div>
             <p className="text-xs font-medium text-slate-400 uppercase tracking-wide">
@@ -183,7 +184,7 @@ const AdminDashboard = () => {
             </p>
           </div>
           {pendingCount > 0 && (
-            <span className="inline-flex items-center rounded-full bg-blue-500/20 px-2 py-1 text-[11px] font-semibold text-blue-300 border border-blue-400/40">
+            <span className="inline-flex items-center rounded-full bg-blue-50 px-2 py-1 text-[11px] font-semibold text-blue-700 border border-blue-200">
               Action needed
             </span>
           )}
@@ -191,7 +192,7 @@ const AdminDashboard = () => {
 
         <button
           onClick={() => handleCardClick("verification")}
-          className="card-glass w-full text-left px-4 py-3 hover:bg-slate-900/70 transition flex items-center justify-between"
+          className="card-glass w-full text-left px-4 py-3 hover:bg-slate-800/60 transition flex items-center justify-between"
         >
           <div>
             <p className="text-xs font-medium text-slate-400 uppercase tracking-wide">
@@ -202,7 +203,7 @@ const AdminDashboard = () => {
             </p>
           </div>
           {verificationCount > 0 && (
-            <span className="inline-flex items-center rounded-full bg-amber-500/20 px-2 py-1 text-[11px] font-semibold text-amber-300 border border-amber-400/40">
+            <span className="inline-flex items-center rounded-full bg-amber-50 px-2 py-1 text-[11px] font-semibold text-amber-700 border border-amber-200">
               Pending
             </span>
           )}
@@ -210,16 +211,22 @@ const AdminDashboard = () => {
 
         <button
           onClick={() => handleCardClick("fines")}
-          className="card-glass w-full text-left px-4 py-3 hover:bg-slate-900/70 transition"
+          className="card-glass w-full text-left px-4 py-3 hover:bg-slate-800/60 transition flex items-center justify-between"
         >
-          <p className="text-xs font-medium text-slate-400 uppercase tracking-wide">Fines Pending</p>
-          <p className="mt-2 text-3xl font-semibold text-slate-50">{fmt(finesSummary.pendingFines || 0)}</p>
+          <div>
+            <p className="text-xs font-medium text-slate-400 uppercase tracking-wide">Fines Pending</p>
+            <p className="mt-2 text-3xl font-semibold text-slate-50">{fmt(finesSummary.pendingFines || 0)}</p>
+          </div>
+          <div className="text-right">
+             <p className="text-[10px] font-medium text-slate-400 uppercase tracking-wide">Collected</p>
+             <p className="mt-1 text-lg font-semibold text-emerald-400">{fmt(finesSummary.receivedFines || 0)}</p>
+          </div>
         </button>
       </div>
 
       <div className="card-glass mt-2">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 px-4 py-3">
-          <h3 className="text-sm font-semibold text-cyan-300">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-700 px-4 py-3">
+          <h3 className="text-sm font-semibold text-primary-700">
             Latest Transactions
           </h3>
           <div className="flex flex-wrap items-center gap-2 text-xs">
@@ -253,10 +260,10 @@ const AdminDashboard = () => {
             <li
               key={b._id}
               onClick={() => setSelectedBorrow(b)}
-              className="px-4 py-3 hover:bg-slate-900/70 cursor-pointer flex items-center justify-between gap-3"
+              className="px-4 py-3 hover:bg-slate-800/60 cursor-pointer flex items-center justify-between gap-3"
             >
               <div>
-                <p className="font-medium text-slate-100">
+                <p className="font-medium text-slate-50">
                   {b.book?.title}{" "}
                   {b.book?.isbn && (
                     <span className="text-[11px] text-slate-400">
@@ -266,8 +273,8 @@ const AdminDashboard = () => {
                 </p>
                 <p className="text-xs text-slate-400">
                   {b.student?.name || "-"} · Issue:{" "}
-                  {new Date(b.issueDate).toLocaleDateString()} · Due:{" "}
-                  {new Date(b.dueDate).toLocaleDateString()}
+                  {formatDate(b.issueDate)} · Due:{" "}
+                  {formatDate(b.dueDate)}
                 </p>
               </div>
               <span
@@ -303,10 +310,10 @@ const AdminDashboard = () => {
 };
 
 const BorrowDetailModal = ({ borrow, onClose, sending, setSending, onStatusChanged }) => {
-  const issueDate = new Date(borrow.issueDate).toLocaleDateString();
-  const dueDate = new Date(borrow.dueDate).toLocaleDateString();
+  const issueDate = formatDate(borrow.issueDate);
+  const dueDate = formatDate(borrow.dueDate);
   const returnDate = borrow.returnDate
-    ? new Date(borrow.returnDate).toLocaleDateString()
+    ? formatDate(borrow.returnDate)
     : null;
   const [showCancelForm, setShowCancelForm] = useState(false);
   const [cancelReason, setCancelReason] = useState("");
@@ -415,13 +422,13 @@ const BorrowDetailModal = ({ borrow, onClose, sending, setSending, onStatusChang
         className="card-glass w-full max-w-md p-4"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between mb-2 border-b border-slate-800 pb-2">
-          <h4 className="text-sm font-semibold text-cyan-300">
+        <div className="flex items-center justify-between mb-2 border-b border-slate-700 pb-2">
+          <h4 className="text-sm font-semibold text-primary-700">
             Transaction Details
           </h4>
           <button
             onClick={onClose}
-            className="px-2 py-1 text-xs rounded-md bg-slate-800/80 text-slate-300 hover:bg-slate-700"
+            className="px-2 py-1 text-xs rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700"
           >
             ✕
           </button>
@@ -466,22 +473,33 @@ const BorrowDetailModal = ({ borrow, onClose, sending, setSending, onStatusChang
             </div>
           </div>
 
-          <div>
-            <p className="text-[11px] text-slate-400">Status</p>
-            <span
-              className={
-                "inline-flex mt-1 items-center rounded-full px-2 py-1 text-[11px] font-semibold " +
-                statusBadgeClass(borrow.status)
-              }
-            >
-              {borrow.status.toUpperCase()}
-            </span>
+          <div className="flex justify-between items-center">
+            <div>
+              <p className="text-[11px] text-slate-400">Status</p>
+              <span
+                className={
+                  "inline-flex mt-1 items-center rounded-full px-2 py-1 text-[11px] font-semibold " +
+                  statusBadgeClass(borrow.status)
+                }
+              >
+                {borrow.status.toUpperCase()}
+              </span>
+            </div>
+            
+            {(borrow.status === "overdue" || borrow.fineAmount > 0) && (
+              <div className="text-right">
+                <p className="text-[11px] text-slate-400">Fine Expected</p>
+                <p className={`text-sm font-semibold mt-1 ${borrow.finePaid ? 'text-green-400' : 'text-red-400'}`}>
+                   Rs {borrow.fineAmount || 0} {borrow.finePaid ? '(Paid)' : '(Pending)'}
+                </p>
+              </div>
+            )}
           </div>
 
           {borrow.cancellationReason && (
-            <div className="bg-yellow-500/10 border border-yellow-500/30 rounded p-2">
-              <p className="text-[11px] text-yellow-300 font-semibold">Cancellation Reason:</p>
-              <p className="text-xs text-yellow-200 mt-1">{borrow.cancellationReason}</p>
+            <div className="bg-yellow-50 border border-yellow-200 rounded p-2">
+              <p className="text-[11px] text-yellow-700 font-semibold">Cancellation Reason:</p>
+              <p className="text-xs text-yellow-800 mt-1">{borrow.cancellationReason}</p>
             </div>
           )}
 
@@ -510,7 +528,7 @@ const BorrowDetailModal = ({ borrow, onClose, sending, setSending, onStatusChang
                 value={cancelReason}
                 onChange={(e) => setCancelReason(e.target.value)}
                 placeholder="Reason for rejection/cancellation..."
-                className="w-full rounded border border-slate-700 bg-slate-900/50 px-3 py-2 text-sm text-slate-50 placeholder-slate-500 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500"
+                className="w-full rounded border border-slate-600 bg-slate-800/60 px-3 py-2 text-sm text-slate-50 placeholder-slate-500 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500"
                 rows="2"
               />
               <div className="flex gap-2">
@@ -546,20 +564,29 @@ const BorrowDetailModal = ({ borrow, onClose, sending, setSending, onStatusChang
             <button
               onClick={returnBorrow}
               disabled={sending}
-              className="w-full mt-3 btn-primary"
+              className="w-full mt-3 btn-primary bg-emerald-600 hover:bg-emerald-700 font-semibold border-none"
             >
               {sending ? "Processing..." : "Mark as Returned"}
             </button>
           )}
 
           {borrow.status === "overdue" && (
-            <button
-              onClick={sendOverdueMail}
-              disabled={sending}
-              className="w-full mt-3 btn-primary"
-            >
-              {sending ? "Sending..." : "Send Overdue Mail"}
-            </button>
+            <div className="flex gap-2 mt-3">
+              <button
+                onClick={returnBorrow}
+                disabled={sending}
+                className="flex-1 btn-primary bg-emerald-600 hover:bg-emerald-700 font-semibold text-xs border-none"
+              >
+                {sending ? "..." : "Mark Returned"}
+              </button>
+              <button
+                onClick={sendOverdueMail}
+                disabled={sending}
+                className="flex-1 btn-primary bg-blue-600 hover:bg-blue-700 font-semibold text-xs border-none"
+              >
+                {sending ? "Sending..." : "Send Mail"}
+              </button>
+            </div>
           )}
         </div>
       </div>

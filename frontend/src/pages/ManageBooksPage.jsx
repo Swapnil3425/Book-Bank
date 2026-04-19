@@ -134,7 +134,7 @@ const ManageBooksPage = () => {
       />
       <section className="space-y-6">
         <div>
-          <h2 className="text-xl font-semibold text-cyan-300">Manage Books</h2>
+          <h2 className="text-xl font-semibold text-primary-700">Manage Books</h2>
           <p className="text-sm text-slate-400">
             Add, edit or remove book records and manage inventory.
           </p>
@@ -143,7 +143,7 @@ const ManageBooksPage = () => {
         <div className="grid gap-6 lg:grid-cols-[2fr_1fr]">
           {/* List */}
           <div className="card-glass p-4">
-            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3 text-xs">
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-700 pb-3 text-xs">
               <div className="flex items-center gap-2">
                 <input
                   value={search}
@@ -173,7 +173,7 @@ const ManageBooksPage = () => {
                   <option value="unavailable">Unavailable</option>
                 </select>
               </div>
-              <p className="text-[11px] text-slate-500">
+              <p className="text-[11px] text-slate-400">
                 Showing {filteredBooks.length} of {books.length}
               </p>
             </div>
@@ -181,21 +181,21 @@ const ManageBooksPage = () => {
             <div className="overflow-x-auto text-sm mt-3">
               <table className="w-full text-left border-collapse table-glass">
                 <thead>
-                  <tr className="text-xs text-cyan-300 border-b border-slate-700 uppercase">
+                  <tr className="text-xs text-primary-700 border-b border-slate-600 uppercase">
                     <th className="px-3 py-2">Title</th>
                     <th className="px-3 py-2">Author</th>
                     <th className="px-3 py-2">Course</th>
                     <th className="px-3 py-2">Copies</th>
-                    <th className="px-3 py-2 text-right">Actions</th>
+                    <th className="px-3 py-2 text-center">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {filteredBooks.map((b) => (
                     <tr
                       key={b._id}
-                      className="hover:bg-slate-900/60 transition border-b border-slate-800"
+                      className="hover:bg-slate-800/60 transition border-b border-slate-700"
                     >
-                      <td className="px-3 py-2 text-slate-100">
+                      <td className="px-3 py-2 text-slate-50">
                         <div className="font-medium">{b.title}</div>
                         <div className="text-[11px] text-slate-400">
                           {b.isbn}
@@ -205,22 +205,24 @@ const ManageBooksPage = () => {
                       <td className="px-3 py-2 text-slate-300">
                         {b.course || "-"}
                       </td>
-                      <td className="px-3 py-2 text-slate-100">
+                      <td className="px-3 py-2 text-slate-50">
                         {b.availableCopies}/{b.totalCopies}
                       </td>
-                      <td className="px-3 py-2 text-right">
-                        <button
-                          onClick={() => handleEdit(b)}
-                          className="btn-outline mr-2 text-xs"
-                        >
-                          Edit
-                        </button>
-                        <button
-                          onClick={() => handleDelete(b._id)}
-                          className="bg-red-500/30 hover:bg-red-500/50 text-red-300 text-xs rounded-md px-3 py-1"
-                        >
-                          Delete
-                        </button>
+                      <td className="px-3 py-2">
+                        <div className="flex items-center justify-center gap-2">
+                          <button
+                            onClick={() => handleEdit(b)}
+                            className="bg-slate-700/50 hover:bg-slate-600 text-slate-200 text-xs rounded-md px-3 py-1.5 transition-colors border border-slate-600"
+                          >
+                            Edit
+                          </button>
+                          <button
+                            onClick={() => handleDelete(b._id)}
+                            className="bg-red-500/10 hover:bg-red-500/20 text-red-400 text-xs rounded-md px-3 py-1.5 transition-colors border border-red-500/30"
+                          >
+                            Delete
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -228,7 +230,7 @@ const ManageBooksPage = () => {
                     <tr>
                       <td
                         colSpan={5}
-                        className="py-4 text-center text-slate-500"
+                        className="py-4 text-center text-slate-400"
                       >
                         No books match your filters.
                       </td>
@@ -244,7 +246,7 @@ const ManageBooksPage = () => {
             onSubmit={handleSubmit}
             className="card-glass p-4 space-y-3 text-sm"
           >
-            <h3 className="text-cyan-300 font-semibold text-base mb-1">
+            <h3 className="text-primary-700 font-semibold text-base mb-1">
               {editingId ? "Edit Book" : "Add New Book"}
             </h3>
             <div className="grid gap-3 sm:grid-cols-2">
