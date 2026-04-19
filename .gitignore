@@ -21,7 +21,6 @@ out/
 
 # Temporary Migration Scripts
 *.py
-*.png
 Gemini_Generated*
 
 # Logs
