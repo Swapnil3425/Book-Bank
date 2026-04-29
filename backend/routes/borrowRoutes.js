@@ -57,10 +57,16 @@ router.post(
       throw new Error("Your account is blocked. You cannot borrow books.");
     }
 
-    const book = await Book.findById(bookId);
-    if (!book || book.availableCopies <= 0) {
+    // Atomic update: only decrement if availableCopies > 0
+    const updatedBook = await Book.findOneAndUpdate(
+      { _id: bookId, availableCopies: { $gt: 0 } },
+      { $inc: { availableCopies: -1 } },
+      { new: true }
+    );
+
+    if (!updatedBook) {
       res.status(400);
-      throw new Error("Book unavailable");
+      throw new Error("Book just became unavailable or was not found");
     }
 
     const borrow = await Borrow.create({
@@ -68,9 +74,6 @@ router.post(
       book: bookId,
       dueDate
     });
-
-    book.availableCopies -= 1;
-    await book.save();
 
     res.status(201).json(await borrow.populate("book"));
   })
@@ -106,9 +109,10 @@ router.put(
     }
     await borrow.save();
 
-    const book = await Book.findById(borrow.book._id);
-    book.availableCopies += 1;
-    await book.save();
+    // Atomic increment
+    await Book.findByIdAndUpdate(borrow.book._id, {
+      $inc: { availableCopies: 1 }
+    });
 
     res.json(borrow);
   })

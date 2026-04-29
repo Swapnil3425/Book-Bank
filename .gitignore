@@ -37,3 +37,9 @@ Thumbs.db
 # IDE specific
 .vscode/
 .idea/
+
+# Interview Preparation
+INTERVIEW_PREP.md
+INTERVIEW_PREP_COMPLETE.md
+MOCK_INTERVIEW_ANSWERS.md
+PROJECT_EXPLAINED_SIMPLE.md
