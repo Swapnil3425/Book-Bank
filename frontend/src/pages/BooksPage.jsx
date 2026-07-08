@@ -33,7 +33,10 @@ const BooksPage = () => {
       const due = new Date();
       due.setDate(due.getDate() + 15); // 15 days
       await api.post("/borrows", { bookId, dueDate: due });
-      setToast({ message: "Borrow request successful", type: "success" });
+      setToast({ 
+        message: "Request submitted! Please collect your book within 3 days. (Important: Accounts with 3 uncollected requests are subject to suspension.)", 
+        type: "success" 
+      });
       fetchBooks(search);
     } catch (err) {
       setToast({
