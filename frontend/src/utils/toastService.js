@@ -1,4 +1,4 @@
-export const showToast = (message, type = "success", duration = 4000) => {
+export const showToast = (message, type = "success", duration = 8000) => {
   try {
     window.dispatchEvent(new CustomEvent("app-toast", { detail: { message, type, duration } }));
   } catch (e) {
