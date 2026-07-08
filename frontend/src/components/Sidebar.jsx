@@ -1,12 +1,21 @@
 // src/components/Sidebar.jsx
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
+import { useDemoMode } from "../context/DemoContext";
 
 const Sidebar = () => {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
+  const { isDemoMode, exitDemo } = useDemoMode();
   const { pathname } = useLocation();
+  const navigate = useNavigate();
   const [chatSeen, setChatSeen] = useState(true);
+
+  const handleExitDemo = async () => {
+    await logout();
+    exitDemo();
+    navigate("/register");
+  };
 
   // check if user has opened /chat at least once
   useEffect(() => {
@@ -24,6 +33,23 @@ const Sidebar = () => {
     chatSeen ? null : (
       <span className="ml-2 h-2 w-2 rounded-full bg-blue-500" />
     );
+
+  // Demo indicator strip (shown at top of authenticated sidebars)
+  const DemoStrip = isDemoMode ? (
+    <div className="mb-3 flex items-center gap-2 rounded-lg border border-amber-700/40 bg-amber-900/20 px-3 py-2 text-xs">
+      <span className="text-sm" aria-hidden="true">⚗️</span>
+      <div className="flex-1 min-w-0">
+        <p className="font-semibold text-amber-300 truncate">Demo Mode</p>
+        <p className="text-[10px] text-amber-500/80">Read-only sandbox</p>
+      </div>
+      <button
+        onClick={handleExitDemo}
+        className="shrink-0 text-[10px] font-bold text-amber-400 hover:text-amber-200 transition-colors"
+      >
+        Exit
+      </button>
+    </div>
+  ) : null;
 
   // GUEST SIDEBAR: only chat
   if (!user) {
@@ -76,6 +102,7 @@ const Sidebar = () => {
   if (user.role === "student") {
     return (
       <aside className="hidden w-56 flex-shrink-0 px-3 py-4 md:block bg-transparent">
+        {DemoStrip}
         <nav className="flex flex-col gap-1 text-sm">
           <Link
             to="/dashboard"
@@ -119,6 +146,7 @@ const Sidebar = () => {
   // ADMIN LINKS
   return (
     <aside className="hidden w-56 flex-shrink-0 px-3 py-4 md:block bg-transparent">
+      {DemoStrip}
       <nav className="flex flex-col gap-1 text-sm">
         <Link
           to="/admin"

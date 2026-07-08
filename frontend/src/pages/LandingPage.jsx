@@ -2,15 +2,17 @@ import { useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import logo from "../assets/logo.png";
+import DemoRoleModal from "../components/DemoRoleModal";
 
 const LandingPage = () => {
   const { user } = useAuth();
   const [showWelcome, setShowWelcome] = useState(false);
   const [redirectNow, setRedirectNow] = useState(false);
+  const [showDemoModal, setShowDemoModal] = useState(false);
 
-  // Personalized welcome delay before redirect
+  // Personalized welcome delay before redirect — skip for demo users
   useEffect(() => {
-    if (user) {
+    if (user && !user.isDemo) {
       setShowWelcome(true);
       const timer = setTimeout(() => setRedirectNow(true), 2000); // 2 sec delay
       return () => clearTimeout(timer);
@@ -47,6 +49,11 @@ const LandingPage = () => {
   // Default landing page for guests
   return (
     <>
+      {/* Demo Role Modal */}
+      {showDemoModal && (
+        <DemoRoleModal onClose={() => setShowDemoModal(false)} />
+      )}
+
       <section className="mt-8 grid gap-12 md:grid-cols-[1fr_1fr] items-center">
       <div className="space-y-6">
         <div className="flex flex-wrap items-center gap-3">
@@ -81,6 +88,7 @@ const LandingPage = () => {
           students and admins.
         </p>
 
+        {/* CTA Buttons — Login · Register · Live Demo */}
         <div className="flex flex-wrap gap-3 text-sm">
           <Link
             to="/login"
@@ -94,6 +102,41 @@ const LandingPage = () => {
           >
             New student? Register
           </Link>
+
+          {/* Live Demo — visually prominent, gradient border treatment */}
+          <button
+            onClick={() => setShowDemoModal(true)}
+            className="group relative inline-flex items-center gap-2 overflow-hidden rounded-lg px-5 py-2.5 font-semibold text-white shadow-lg transition-all duration-200 hover:shadow-violet-900/40 hover:scale-[1.02] focus:outline-none"
+            style={{
+              background: "linear-gradient(135deg, #6366f1 0%, #8b5cf6 60%, #06b6d4 100%)",
+            }}
+          >
+            {/* Shimmer on hover */}
+            <span
+              className="pointer-events-none absolute inset-0 -translate-x-full skew-x-12 bg-white/10 transition-transform duration-500 group-hover:translate-x-full"
+              aria-hidden="true"
+            />
+            <span className="text-base select-none" aria-hidden="true">⚗️</span>
+            Live Demo
+          </button>
+        </div>
+
+        {/* Standalone Live Demo row with caption */}
+        <div className="flex flex-col gap-1.5">
+          <div className="flex items-center gap-3">
+            <div className="h-px flex-1 bg-slate-700/50" />
+            <span className="text-[10px] font-semibold uppercase tracking-widest text-slate-600">or try without signing up</span>
+            <div className="h-px flex-1 bg-slate-700/50" />
+          </div>
+          <button
+            onClick={() => setShowDemoModal(true)}
+            className="group relative flex w-full items-center justify-center gap-2.5 overflow-hidden rounded-xl border border-indigo-500/30 bg-indigo-600/5 px-5 py-3 font-semibold text-indigo-300 shadow-md transition-all duration-200 hover:border-indigo-400/50 hover:bg-indigo-600/10 hover:text-indigo-200 hover:shadow-indigo-900/30 focus:outline-none"
+          >
+            <span className="text-lg select-none" aria-hidden="true">⚗️</span>
+            <span className="text-sm">Explore Live Demo</span>
+            <span className="text-xs text-indigo-400/60">— Student &amp; Admin views available</span>
+          </button>
+          <p className="text-center text-[10px] text-slate-600">No account needed · Read-only sandbox · Instant access</p>
         </div>
 
         <dl className="mt-6 grid grid-cols-3 gap-4 border-t border-slate-700/50 pt-6 text-sm text-slate-400">
@@ -124,15 +167,15 @@ const LandingPage = () => {
           <div className="grid grid-cols-3 gap-4">
             <div className="rounded-xl border border-slate-700/50 bg-slate-900/60 p-4">
               <p className="text-xs font-medium text-slate-400 mb-1">Books in bank</p>
-              <p className="text-2xl font-bold text-slate-50">10,245</p>
+              <p className="text-2xl font-bold text-slate-50">25</p>
             </div>
             <div className="rounded-xl border border-green-100 bg-green-50 p-4">
               <p className="text-xs font-medium text-green-600 mb-1">Issued today</p>
-              <p className="text-2xl font-bold text-green-700">128</p>
+              <p className="text-2xl font-bold text-green-700">12</p>
             </div>
             <div className="rounded-xl border border-red-100 bg-red-50 p-4">
               <p className="text-xs font-medium text-red-600 mb-1">Overdue</p>
-              <p className="text-2xl font-bold text-red-700">14</p>
+              <p className="text-2xl font-bold text-red-700">5</p>
             </div>
           </div>
           <div className="rounded-xl border border-slate-700/50 bg-slate-900/60 p-4 mt-2">
@@ -167,3 +210,4 @@ const LandingPage = () => {
 };
 
 export default LandingPage;
+

@@ -5,6 +5,7 @@ import Toast from "../components/Toast";
 
 const VerificationRequestsPage = () => {
   const [pendingUsers, setPendingUsers] = useState([]);
+  const [counts, setCounts] = useState({ pending: 0, approved: 0, rejected: 0 });
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("pending");
   const [selectedUser, setSelectedUser] = useState(null);
@@ -20,6 +21,15 @@ const VerificationRequestsPage = () => {
     try {
       setLoading(true);
       const { data } = await api.get("/admin/users");
+      
+      const newCounts = { pending: 0, approved: 0, rejected: 0 };
+      data.forEach((u) => {
+        if (u.idPhotoPath && newCounts[u.verificationStatus] !== undefined) {
+          newCounts[u.verificationStatus]++;
+        }
+      });
+      setCounts(newCounts);
+
       const filtered = data.filter(
         (u) => u.verificationStatus === filter && u.idPhotoPath
       );
@@ -130,7 +140,7 @@ const VerificationRequestsPage = () => {
                 }`}
             >
               {status.charAt(0).toUpperCase() + status.slice(1)} (
-              {pendingUsers.length})
+              {counts[status] || 0})
             </button>
           ))}
         </div>

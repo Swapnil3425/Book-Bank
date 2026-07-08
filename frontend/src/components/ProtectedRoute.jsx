@@ -7,8 +7,10 @@ const ProtectedRoute = ({ allowedRoles }) => {
 
   if (initializing) return <LoadingSpinner />;
 
+  // No user → redirect to login (demo users ARE set as user so this is fine)
   if (!user) return <Navigate to="/login" replace />;
 
+  // Role check — demo user already has the correct role set
   if (allowedRoles && !allowedRoles.includes(user.role)) {
     return <Navigate to="/" replace />;
   }
@@ -17,3 +19,4 @@ const ProtectedRoute = ({ allowedRoles }) => {
 };
 
 export default ProtectedRoute;
+

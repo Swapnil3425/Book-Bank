@@ -1,62 +1,79 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import api from "../api/axios";
 import { showToast } from "../utils/toastService";
+import { useDemoMode } from "./DemoContext";
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const { isDemoMode, demoUser, exitDemo } = useDemoMode();
+  const [realUser, setRealUser] = useState(null);
   const [initializing, setInitializing] = useState(true);
 
+  // The effective user is the demo user when in demo mode, otherwise the real user
+  const user = isDemoMode ? demoUser : realUser;
+
   useEffect(() => {
+    // Demo mode is handled via demoUser from DemoContext — no API call needed
+    if (isDemoMode) {
+      setInitializing(false);
+      return;
+    }
+
     const fetchMe = async () => {
       try {
         const { data } = await api.get("/auth/me");
-        setUser(data);
+        setRealUser(data);
       } catch {
-        setUser(null);
+        setRealUser(null);
       } finally {
         setInitializing(false);
       }
     };
     fetchMe();
-  }, []);
+  }, [isDemoMode]);
 
-  // Session timeout (15 minutes)
+  // Session timeout (15 minutes) — skip for demo users
   useEffect(() => {
     let timer;
-    if (user) {
+    if (realUser && !isDemoMode) {
       timer = setTimeout(async () => {
         try {
           await api.post("/auth/logout");
         } catch {
           // ignore
         }
-        setUser(null);
+        setRealUser(null);
         showToast("Session expired. Please log in again.", "error");
       }, 15 * 60 * 1000);
     }
     return () => clearTimeout(timer);
-  }, [user]);
+  }, [realUser, isDemoMode]);
 
   const login = async (payload) => {
     const { data } = await api.post("/auth/login", payload);
-    setUser(data);
+    setRealUser(data);
   };
 
   const register = async (payload) => {
     const { data } = await api.post("/auth/register", payload);
-    setUser(data);
+    setRealUser(data);
   };
 
   const logout = async () => {
+    // Exit demo mode cleanly if applicable
+    if (isDemoMode) {
+      exitDemo();
+      setInitializing(false);
+      return;
+    }
     await api.post("/auth/logout");
-    setUser(null);
+    setRealUser(null);
   };
 
   const updateProfile = async (payload) => {
     const { data } = await api.put("/auth/me", payload);
-    setUser(data);
+    if (!isDemoMode) setRealUser(data);
   };
 
   return (
@@ -69,3 +86,4 @@ export const AuthProvider = ({ children }) => {
 };
 
 export const useAuthContext = () => useContext(AuthContext);
+

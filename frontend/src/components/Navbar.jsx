@@ -1,12 +1,17 @@
 // frontend/src/components/Navbar.jsx
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
+import { useDemoMode } from "../context/DemoContext";
+import DemoRoleModal from "./DemoRoleModal";
 import logo from "../assets/logo.png";
 
 const Navbar = () => {
   const { user, logout } = useAuth();
+  const { isDemoMode, exitDemo } = useDemoMode();
+  const navigate = useNavigate();
   const [isHelpOpen, setIsHelpOpen] = useState(false);
+  const [showDemoModal, setShowDemoModal] = useState(false);
 
   const homePath = user
     ? user.role === "admin"
@@ -14,8 +19,17 @@ const Navbar = () => {
       : "/dashboard"
     : "/";
 
+  const handleExitDemo = async () => {
+    await logout();
+    exitDemo();
+    navigate("/register");
+  };
+
   return (
     <header className="sticky top-0 z-40 border-b border-slate-700 bg-slate-800/60 shadow-sm backdrop-blur-md">
+      {showDemoModal && (
+        <DemoRoleModal onClose={() => setShowDemoModal(false)} />
+      )}
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 relative">
         {/* Logo / Title */}
         <Link to={homePath} className="flex items-center gap-2">
@@ -43,13 +57,14 @@ const Navbar = () => {
 
         {/* Right side: auth / user info */}
         <div className="flex items-center gap-2 sm:gap-3 text-sm">
+          {/* Mobile help toggle (guest only) */}
           {!user && (
             <div className="flex items-center gap-1.5 sm:hidden">
               <button
                 onClick={() => setIsHelpOpen(!isHelpOpen)}
                 className={`flex h-9 w-9 items-center justify-center rounded-lg border transition-all ${
-                  isHelpOpen 
-                  ? "bg-primary-600 border-primary-500 text-white" 
+                  isHelpOpen
+                  ? "bg-primary-600 border-primary-500 text-white"
                   : "bg-slate-900/60 border-slate-700 text-slate-300"
                 }`}
               >
@@ -60,19 +75,50 @@ const Navbar = () => {
 
           {user ? (
             <>
-              <Link
-                to="/profile"
-                className="hidden items-center gap-1.5 rounded-lg border border-slate-700 bg-slate-900/60 px-3 py-1.5 text-slate-300 sm:inline-flex hover:bg-slate-800 transition-colors"
-              >
-                <span className="h-2 w-2 rounded-full bg-green-500" />
-                <span className="font-medium">{user.name}</span> <span className="text-slate-500">·</span> <span className="text-xs text-slate-400">{user.role.toUpperCase()}</span>
-              </Link>
-              <button
-                onClick={logout}
-                className="rounded-lg bg-slate-800 border border-slate-700 px-3 py-1.5 font-medium text-slate-300 hover:bg-slate-700 transition-colors"
-              >
-                Logout
-              </button>
+              {/* Demo mode badge */}
+              {isDemoMode && (
+                <span className="hidden items-center gap-1.5 rounded-lg border border-amber-600/40 bg-amber-900/30 px-2.5 py-1 text-xs font-semibold text-amber-300 sm:inline-flex">
+                  <span className="text-sm" aria-hidden="true">⚗️</span>
+                  Demo
+                </span>
+              )}
+
+              {/* Profile chip */}
+              {!isDemoMode ? (
+                <Link
+                  to="/profile"
+                  className="hidden items-center gap-1.5 rounded-lg border border-slate-700 bg-slate-900/60 px-3 py-1.5 text-slate-300 sm:inline-flex hover:bg-slate-800 transition-colors"
+                >
+                  <span className="h-2 w-2 rounded-full bg-green-500" />
+                  <span className="font-medium">{user.name}</span>{" "}
+                  <span className="text-slate-500">·</span>{" "}
+                  <span className="text-xs text-slate-400">{user.role.toUpperCase()}</span>
+                </Link>
+              ) : (
+                <span className="hidden items-center gap-1.5 rounded-lg border border-slate-700 bg-slate-900/60 px-3 py-1.5 text-slate-300 sm:inline-flex">
+                  <span className="h-2 w-2 rounded-full bg-amber-400" />
+                  <span className="font-medium">{user.name}</span>{" "}
+                  <span className="text-slate-500">·</span>{" "}
+                  <span className="text-xs text-slate-400">{user.role.toUpperCase()}</span>
+                </span>
+              )}
+
+              {/* Logout / Exit Demo button */}
+              {isDemoMode ? (
+                <button
+                  onClick={handleExitDemo}
+                  className="rounded-lg border border-amber-700/50 bg-amber-900/30 px-3 py-1.5 font-semibold text-amber-200 hover:bg-amber-900/60 transition-colors text-xs"
+                >
+                  Exit Demo
+                </button>
+              ) : (
+                <button
+                  onClick={logout}
+                  className="rounded-lg bg-slate-800 border border-slate-700 px-3 py-1.5 font-medium text-slate-300 hover:bg-slate-700 transition-colors"
+                >
+                  Logout
+                </button>
+              )}
             </>
           ) : (
             <>
@@ -88,6 +134,17 @@ const Navbar = () => {
               >
                 Register
               </Link>
+              {/* Live Demo CTA in navbar */}
+              <button
+                onClick={() => setShowDemoModal(true)}
+                className="hidden items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-bold text-white transition-all sm:inline-flex hover:opacity-90"
+                style={{
+                  background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
+                }}
+              >
+                <span className="text-sm" aria-hidden="true">⚗️</span>
+                Live Demo
+              </button>
             </>
           )}
         </div>
@@ -106,12 +163,21 @@ const Navbar = () => {
                   <span>💬 Chat Assistant</span>
                 </Link>
               </div>
+              {/* Mobile Live Demo button */}
+              <button
+                onClick={() => { setIsHelpOpen(false); setShowDemoModal(true); }}
+                className="w-full flex items-center justify-center gap-2 rounded-lg p-3 text-sm font-bold text-white"
+                style={{ background: "linear-gradient(135deg, #6366f1, #8b5cf6)" }}
+              >
+                <span aria-hidden="true">⚗️</span>
+                Live Demo — Try Without Signing Up
+              </button>
               <div className="border-t border-slate-800 pt-3 space-y-3">
                 <div className="flex flex-col gap-2">
                   <p className="text-xs font-bold text-slate-300 italic">New to BookBank?</p>
-                  <a 
-                    href="https://github.com/Swapnil3425/Book-Bank" 
-                    target="_blank" 
+                  <a
+                    href="https://github.com/Swapnil3425/Book-Bank"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="text-xs text-primary-400 font-bold underline decoration-primary-500/30 underline-offset-4"
                   >
@@ -131,3 +197,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
